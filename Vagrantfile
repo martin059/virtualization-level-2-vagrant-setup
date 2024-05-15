@@ -19,8 +19,8 @@ Vagrant.configure("2") do |config|
     v.memory = $defaultMemory
     v.cpus = $defaultCPUs
 
-    config.vm.graceful_halt_timeout = 300
-    config.ssh.username = "root"
+    config.vm.graceful_halt_timeout = 100
+    # config.ssh.forward_x11 = true
 
   end
 end
