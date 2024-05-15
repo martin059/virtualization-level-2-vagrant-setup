@@ -19,8 +19,16 @@ Vagrant.configure("2") do |config|
     v.memory = $defaultMemory
     v.cpus = $defaultCPUs
 
-    config.vm.graceful_halt_timeout = 100
-    # config.ssh.forward_x11 = true
-
+  end
+  
+  config.vm.graceful_halt_timeout = 100
+  # config.ssh.forward_x11 = true
+  
+  config.vm.provision :ansible_local do |ansible|
+    ansible.compatibility_mode = "2.0"
+    ansible.playbook_command = "ANSIBLE_LOG_PATH=/vagrant/ansible.log ANSIBLE_STDOUT_CALLBACK=yaml ansible-playbook"
+    ansible.provisioning_path = "/vagrant/ansible"
+    ansible.playbook = "playbook.yml"
+    ansible.verbose = true
   end
 end
