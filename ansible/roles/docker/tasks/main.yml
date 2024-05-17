@@ -1,0 +1,45 @@
+- name: Install yum package manager
+  become: yes
+  package:
+    name: yum
+    state: present
+
+- name: Docker
+  become: yes
+  block:
+    - name: Install Docker dependencies
+      package:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - yum-utils
+        - device-mapper-persistent-data
+        - lvm2
+
+    - name: Add Docker repository
+      yum_repository:
+        name: docker-ce-stable
+        description: Docker CE Stable - $basearch
+        baseurl: https://download.docker.com/linux/centos/9/$basearch/stable
+        gpgcheck: yes
+        gpgkey: https://download.docker.com/linux/centos/gpg
+        enabled: yes
+
+    - name: Install Docker
+      package:
+        name: docker-ce
+        state: present
+
+    - name: Start and enable Docker service
+      service:
+        name: docker
+        state: started
+        enabled: yes
+
+    # This task adds the "vagrant" user to the "docker" group.
+    # It ensures that the user has the necessary permissions to interact with Docker.
+    - name: Add vagrant user to docker group
+      user:
+        name: vagrant
+        groups: docker
+        append: yes
