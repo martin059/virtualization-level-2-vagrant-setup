@@ -1,11 +1,9 @@
 - name: Install yum package manager
-  become: yes
   package:
     name: yum
     state: present
 
 - name: Docker
-  become: yes
   block:
     - name: Install Docker dependencies
       package:
