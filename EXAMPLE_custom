@@ -1,0 +1,10 @@
+# This is an example ansible/group_vars/all/custom file.
+# In order to customize the provisioning process just copy it into place
+# then uncomment and modify whatever is needed.
+
+# Please note that commented-out values do not necessarily reflect current
+# defaults as this example file is not updated whenever role defaults are.
+
+# git_user_name: <insert_username>
+# git_user_email: <insert_user_email>
+# git_user_signingkey_name: <insert_user_private_key_name>
