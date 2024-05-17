@@ -35,3 +35,11 @@
         name: docker
         state: started
         enabled: yes
+
+    # This task adds the "vagrant" user to the "docker" group.
+    # It ensures that the user has the necessary permissions to interact with Docker.
+    - name: Add vagrant user to docker group
+      user:
+        name: vagrant
+        groups: docker
+        append: yes
