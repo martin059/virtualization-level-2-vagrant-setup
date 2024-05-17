@@ -1,0 +1,34 @@
+---
+- name: Install useful tools
+  yum:
+    name:
+      - ack
+      - curl
+      - dos2unix
+      - man
+      - man-pages
+      - tree
+      - unzip
+      - vim
+    state: present
+
+- when: git_recommended_config|bool
+  block:
+  - name: Git rebase by default when pulling
+    command: git config --global pull.rebase true chdir=/
+
+  - name: Git autostash by default when rebasing
+    command: git config --global rebase.autostash true chdir=/
+
+- name: Set Git user name
+  command: git config --global user.name "{{git_user_name}}" chdir=/
+  when: git_user_name is defined
+
+- name: Set Git user email
+  command: git config --global user.email "{{git_user_email}}" chdir=/
+  when: git_user_email is defined
+
+- name: Set Git user signing key
+  command: git config --global user.signingkey /home/vagrant/.ssh/"{{git_user_signingkey_name}}" chdir=/
+  when: git_user_signingkey_name is defined
+
