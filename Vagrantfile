@@ -29,7 +29,7 @@ Vagrant.configure("2") do |config|
   end
   
   config.vm.graceful_halt_timeout = 100
-  # config.ssh.forward_x11 = true
+  config.ssh.forward_x11 = true
   
   config.vm.provision :ansible_local do |ansible|
     ansible.compatibility_mode = "2.0"
