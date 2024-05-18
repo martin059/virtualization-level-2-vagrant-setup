@@ -7,3 +7,4 @@
     - developer # Includes basic Git configuration
 #    - docker
 #    - nodejs
+    - x11
