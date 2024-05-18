@@ -1,0 +1,12 @@
+---
+- name: Install X11 libraries, DejaVu fonts and xauth
+  yum:
+    name:
+    - dejavu-sans-fonts
+    - dejavu-sans-mono-fonts
+    - dejavu-serif-fonts
+    - libglvnd-glx
+    - libXrender
+    - libXtst
+    - mesa-dri-drivers
+    - xorg-x11-xauth
