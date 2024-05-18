@@ -1,0 +1,4 @@
+---
+timezone: Europe/Madrid
+vagrant_home: /vagrant
+vagrant_ssh_keys_dir: "{{vagrant_home}}/ssh"

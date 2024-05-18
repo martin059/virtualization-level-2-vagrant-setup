@@ -1,5 +1,8 @@
 ---
 - hosts: all
+  become: yes
   roles:
     - test
-    - docker
+    - vagrant
+    - developer # Includes basic Git configuration
+#    - docker
