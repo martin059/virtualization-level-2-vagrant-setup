@@ -34,6 +34,15 @@
         state: started
         enabled: yes
 
+    # Source: https://wiki.crowncloud.net/?How_to_Install_Docker_Compose_on_AlmaLinux_9
+    - name: Install Docker Compose
+      shell: >
+        curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" 
+        -o /usr/local/bin/docker-compose --create-dirs
+        && chmod +x /usr/local/bin/docker-compose
+      args:
+        creates: /usr/local/bin/docker-compose
+
     # This task adds the "vagrant" user to the "docker" group.
     # It ensures that the user has the necessary permissions to interact with Docker.
     - name: Add vagrant user to docker group
