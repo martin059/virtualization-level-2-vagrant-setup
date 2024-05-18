@@ -1,14 +1,14 @@
 ---
-- name: Install NPM and its dependencies
-  yum:
-    name: "{{ item }}"
+- name: Reset Node.js module
+  command:
+    cmd: dnf module reset nodejs -y
+
+- name: Install Node.js
+  dnf:
+    name: '@nodejs:20'
+    state: present
+
+- name: Update Node.js
+  dnf:
+    name: nodejs
     state: latest
-  with_items:
-    - npm
-    - nodejs
-    - gcc
-    - gcc-c++
-    - openssl-devel
-    - libffi-devel
-    - python3-devel
-    - python3-pip
