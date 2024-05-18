@@ -19,6 +19,14 @@ Vagrant.configure("2") do |config|
     v.memory = $defaultMemory
     v.cpus = $defaultCPUs
 
+    config.vm.network :forwarded_port, guest: 3000, host_ip: "127.0.0.1", host: 3333, name: "Grafana"
+    config.vm.network :forwarded_port, guest: 9090, host_ip: "127.0.0.1", host: 9090, name: "Prometheus"
+    config.vm.network :forwarded_port, guest: 5001, host_ip: "127.0.0.1", host: 5001, name: "Python API"
+    config.vm.network :forwarded_port, guest: 5002, host_ip: "127.0.0.1", host: 5002, name: "Svelte App"
+    config.vm.network :forwarded_port, guest: 9093, host_ip: "127.0.0.1", host: 9093, name: "Alert Manager"
+    config.vm.network :forwarded_port, guest: 9093, host_ip: "127.0.0.1", host: 9093, name: "Alert Manager"
+    config.vm.network :forwarded_port, guest: 3001, host_ip: "127.0.0.1", host: 3001, name: "App debug"
+
   end
   
   config.vm.graceful_halt_timeout = 100
