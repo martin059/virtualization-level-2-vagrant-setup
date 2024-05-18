@@ -5,5 +5,5 @@
     - test
     - vagrant
     - developer # Includes basic Git configuration
-    - docker
-    - nodejs
+#    - docker
+#    - nodejs
