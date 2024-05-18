@@ -1,0 +1,14 @@
+---
+- name: Install NPM and its dependencies
+  yum:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - npm
+    - nodejs
+    - gcc
+    - gcc-c++
+    - openssl-devel
+    - libffi-devel
+    - python3-devel
+    - python3-pip

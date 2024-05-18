@@ -6,3 +6,4 @@
     - vagrant
     - developer # Includes basic Git configuration
 #    - docker
+    - npm
