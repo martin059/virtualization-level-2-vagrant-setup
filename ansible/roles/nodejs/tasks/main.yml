@@ -1,0 +1,14 @@
+---
+- name: Reset Node.js module
+  command:
+    cmd: dnf module reset nodejs -y
+
+- name: Install Node.js
+  dnf:
+    name: '@nodejs:20'
+    state: present
+
+- name: Update Node.js
+  dnf:
+    name: nodejs
+    state: latest
