@@ -1,0 +1,17 @@
+---
+- name: Configure gh-cli repository
+  get_url:
+    url: https://cli.github.com/packages/rpm/gh-cli.repo
+    dest: /etc/yum.repos.d/gh-cli.repo
+
+- name: Install GitHub CLI
+  yum:
+    name: gh
+    state: latest
+
+- name: Create profile script for GitHub CLI
+  copy:
+    dest: /etc/profile.d/gh-cli.sh
+    content: |
+      export GH_HOST={{ghcli_host}}
+      export GH_TOKEN={{ghcli_token}}
