@@ -6,12 +6,6 @@
     state: link
     force: yes
 
-- name: Create .ssh directory
-  file:
-    path: /vagrant/.ssh
-    state: directory
-    mode: '0600'
-
 - name: Copy SSH keys
   copy:
     src: "{{item}}"
