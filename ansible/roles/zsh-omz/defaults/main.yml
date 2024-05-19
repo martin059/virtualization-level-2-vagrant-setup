@@ -1,0 +1,6 @@
+---
+omz_installer_url: https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh
+omz_disable_au: yes
+omz_home: /home/vagrant/.oh-my-zsh
+omz_zshrc: /home/vagrant/.zshrc
+omz_theme: ys
