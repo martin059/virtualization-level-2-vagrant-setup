@@ -5,6 +5,8 @@
     - test
     - vagrant
     - developer # Includes basic Git configuration
+    - zsh
+    - zsh-omz
     - { role: ghcli, when: install_ghcli|bool }
 #    - docker
 #    - nodejs
