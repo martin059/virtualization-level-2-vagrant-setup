@@ -8,3 +8,6 @@
 install_ghcli: no
 install_pgadmin: no
 install_docker: no
+install_nodejs: no
+install_vscode: no
+install_postman: no
