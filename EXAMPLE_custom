@@ -8,3 +8,6 @@
 # git_user_name: <insert_username>
 # git_user_email: <insert_user_email>
 # git_user_signingkey_name: <insert_user_private_key_name>
+
+# install_ghcli: yes
+# ghcli_token: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
