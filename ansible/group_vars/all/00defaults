@@ -6,3 +6,5 @@
 ################################################################################
 
 install_ghcli: no
+install_pgadmin: no
+install_docker: no
