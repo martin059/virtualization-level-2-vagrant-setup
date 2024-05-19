@@ -10,7 +10,7 @@
 # git_user_signingkey_name: <insert_user_private_key_name>
 
 # install_docker: yes
-## NOTE: is pgadmin is set to be installed, docker will also be installed as it is needed to
+## NOTE: if pgadmin is set to be installed, docker will also be installed since it's a dependency
 # install_pgadmin: yes
 
 # install_ghcli: yes
