@@ -13,6 +13,12 @@
 ## NOTE: if pgadmin is set to be installed, docker will also be installed since it's a dependency
 # install_pgadmin: yes
 
+# install_nodejs: yes
+
+# install_vscode: yes
+
+# install_postman: yes
+
 # install_ghcli: yes
 ## NOTE: ghcli_token is optional, if not declared, `gh auth` will have to
 ## be executed to carry out the github authentication process
