@@ -5,6 +5,7 @@
     - test
     - vagrant
     - developer # Includes basic Git configuration
+    - { role: ghcli, when: install_ghcli|bool }
 #    - docker
 #    - nodejs
     - x11
