@@ -22,3 +22,15 @@
         line: 'export XAUTHORITY=$HOME/.Xauthority'
         create: yes
         insertafter: EOF
+    
+    - name: Check if .zshrc file exists
+      stat:
+        path: /home/vagrant/.zshrc
+      register: zshrc_file
+
+    - name: Add XAUTHORITY to .zshrc
+      lineinfile:
+        path: /home/vagrant/.zshrc
+        line: 'export XAUTHORITY=$HOME/.Xauthority'
+        insertafter: EOF
+      when: zshrc_file.stat.exists

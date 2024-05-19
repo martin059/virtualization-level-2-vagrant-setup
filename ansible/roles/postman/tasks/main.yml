@@ -23,3 +23,17 @@
       shell: |
         snap wait system seed.loaded
         snap install postman --channel=v9/stable
+
+    - name: Check if .zshrc file exists
+      stat:
+        path: /home/vagrant/.zshrc
+      register: zshrc_file
+    
+    - name: Add Postman to Vagrant user's path (zsh) if it exists
+      lineinfile:
+        path: /home/vagrant/.zshrc
+        line: 'export PATH="$PATH:/var/lib/snapd/snap/bin"'
+        create: yes
+        insertafter: EOF
+        state: present
+      when: zshrc_file.stat.exists
