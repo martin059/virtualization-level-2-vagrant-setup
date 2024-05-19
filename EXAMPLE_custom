@@ -5,21 +5,25 @@
 # Please note that commented-out values do not necessarily reflect current
 # defaults as this example file is not updated whenever role defaults are.
 
-# git_user_name: <insert_username>
-# git_user_email: <insert_user_email>
-# git_user_signingkey_name: <insert_user_private_key_name>
+################################################################################
+# The following group of elements are necessary for launching the MVP vagrant which can
+# pull from Github, compile and run the project:
 
+# git_user_name: <insert_username>                         # REPLACE WITH VALID CREDENTIAL
+# git_user_email: <insert_user_email>                      # REPLACE WITH VALID CREDENTIAL
+# git_user_signingkey_name: <insert_user_private_key_name> # REPLACE WITH VALID NAME
+# install_nodejs: yes
 # install_docker: yes
+################################################################################
+
+# The following elements are optional and can be used for the development of the MVP from scratch
+
 ## NOTE: if pgadmin is set to be installed, docker will also be installed since it's a dependency
 # install_pgadmin: yes
-
-# install_nodejs: yes
-
 # install_vscode: yes
-
 # install_postman: yes
 
 # install_ghcli: yes
 ## NOTE: ghcli_token is optional, if not declared, `gh auth` will have to
 ## be executed to carry out the github authentication process
-# ghcli_token: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# ghcli_token: <insert_token>                              # REPLACE WITH VALID TOKEN
