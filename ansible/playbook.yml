@@ -9,7 +9,6 @@
     - zsh-omz
     - { role: ghcli, when: install_ghcli|bool }
     - { role: docker, when: install_docker|bool }
-    - docker
 #    - nodejs
     - x11
     - { role: pgadmin, when: install_pgadmin|bool }
