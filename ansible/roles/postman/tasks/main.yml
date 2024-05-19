@@ -1,0 +1,26 @@
+---
+# Instructions from https://snapcraft.io/install/postman/rhel
+- name: Install Postman
+  block:
+    - name: Prepare Postman installation with snap
+      shell: |
+        yum -y install snapd
+    
+    - name: Create symbolic link if it doesn't exist
+      command: ln -s /var/lib/snapd/snap /snap
+      args:
+        creates: /snap
+    
+    - name: Enable and start snapd.socket
+      systemd:
+        name: snapd.socket
+        state: started
+        enabled: yes
+    
+    # Postman v9 is installed instead of the latest since starting from v10
+    # Postman has severly limited functionality unless an account is created
+    - name: Install Postman
+      shell: |
+        snap wait system seed.loaded
+        snap install postman --channel=v9/stable
+        export XAUTHORITY=$HOME/.Xauthority
