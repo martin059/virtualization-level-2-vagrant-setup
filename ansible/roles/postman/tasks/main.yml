@@ -23,4 +23,3 @@
       shell: |
         snap wait system seed.loaded
         snap install postman --channel=v9/stable
-        export XAUTHORITY=$HOME/.Xauthority
