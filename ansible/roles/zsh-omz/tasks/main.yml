@@ -1,0 +1,55 @@
+---
+- name: Install Oh My Zsh as vagrant
+  block:
+    - name: Install omz
+      become: yes
+      become_user: vagrant
+      shell:
+        cmd: sh -c "$(curl -fsSL {{omz_installer_url}})" "" --unattended
+        creates: "{{omz_zshrc}}"
+
+    - name: Create {{omz_home}} folder if it doesn't exist
+      file:
+        path: "{{omz_home}}"
+        state: directory
+        mode: 0755
+
+    - name: Create {{omz_home}}/themes folder if it doesn't exist
+      file:
+        path: "{{omz_home}}/themes"
+        state: directory
+        mode: 0755
+
+    - name: Create .zshrc file if it doesn't exist
+      file:
+        path: "{{omz_zshrc}}"
+        state: touch
+        mode: 0644
+
+    - name: Disable automatic updates
+      lineinfile: dest={{omz_zshrc}} regexp="^# DISABLE_AUTO_UPDATE=" line=DISABLE_AUTO_UPDATE=true
+      when: omz_disable_au|bool
+
+    - name: Ensure chsh is available
+      yum:
+        name: util-linux-user
+
+    - name: Set omz installation
+      lineinfile:
+        dest: /home/vagrant/.zshrc
+        line: 'export ZSH=$HOME/.oh-my-zsh'
+
+    - name: Copy SD theme
+      copy:
+        src: ys.zsh-theme
+        dest: "{{omz_home}}/themes/"
+      when: omz_theme == 'ys'
+
+    - name: Set theme
+      lineinfile:
+        dest: /home/vagrant/.zshrc
+        regexp: ^ZSH_THEME=
+        line: 'export ZSH_THEME="{{omz_theme}}"'
+
+    - name: Change default shell to zsh for vagrant user
+      command: chsh -s /bin/zsh vagrant
