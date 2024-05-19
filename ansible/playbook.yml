@@ -8,5 +8,5 @@
 #    - docker
 #    - nodejs
     - x11
-    - vscode
+#    - vscode
 #    - postman
