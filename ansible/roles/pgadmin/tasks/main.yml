@@ -1,0 +1,6 @@
+---
+- name: Pull pgadmin4 Docker image
+  command: docker pull dpage/pgadmin4
+
+- name: Run pgadmin4 Docker container
+  command: docker run -p 80:80 -e 'PGADMIN_DEFAULT_EMAIL=user@domain.com' -e 'PGADMIN_DEFAULT_PASSWORD=abc123.' -d dpage/pgadmin4
