@@ -8,8 +8,9 @@
     - zsh
     - zsh-omz
     - { role: ghcli, when: install_ghcli|bool }
-#    - docker
+    - { role: docker, when: install_docker|bool }
 #    - nodejs
     - x11
+    - { role: pgadmin, when: install_pgadmin|bool }
 #    - vscode
 #    - postman
