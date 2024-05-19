@@ -1,12 +1,24 @@
 ---
-- name: Install X11 libraries, DejaVu fonts and xauth
-  yum:
-    name:
-    - dejavu-sans-fonts
-    - dejavu-sans-mono-fonts
-    - dejavu-serif-fonts
-    - libglvnd-glx
-    - libXrender
-    - libXtst
-    - mesa-dri-drivers
-    - xorg-x11-xauth
+- name: Install X11
+  block:
+    - name: Install X11 libraries, DejaVu fonts, and xauth
+      yum:
+        name:
+          - dejavu-sans-fonts
+          - dejavu-sans-mono-fonts
+          - dejavu-serif-fonts
+          - libglvnd-glx
+          - libXrender
+          - libXtst
+          - mesa-dri-drivers
+          - xauth
+          - xorg-x11-server-utils
+          - xorg-x11-xauth
+          - xorg-x11-server-Xvfb
+
+    - name: Add XAUTHORITY to .bash_profile
+      lineinfile:
+        path: /home/vagrant/.bash_profile
+        line: 'export XAUTHORITY=$HOME/.Xauthority'
+        create: yes
+        insertafter: EOF
