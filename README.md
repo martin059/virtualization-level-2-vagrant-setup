@@ -1,10 +1,10 @@
 # Second Virtualization level: Vagrant set up script
 
-This project contains the required scripts for automatically deploying and provisioning Virtual Machine (VM) capable of developing and running the Sample App made for the [1st virtualization level](https://github.com/martin059/vitualization-level-1-prototype-app).
+This project contains the required scripts for automatically deploying and provisioning a Virtual Machine (VM) capable of developing and running the Sample App made for the [1st virtualization level](https://github.com/martin059/vitualization-level-1-prototype-app).
 
 The aim of this project is to provide a way to quickly create and configure lightweight, reproducible, and portable development and demo environments using [Ansible](https://www.ansible.com/) playbooks and roles. The environment can be brought up and managed using [Vagrant](https://www.vagrantup.com/).
 
-The VM is built on top of the [AlmaLinux](https://almalinux.org/) 9's [official vagrant box](https://app.vagrantup.com/almalinux/boxes/9), taking the _currently released version_.
+The VM is built on top of the [AlmaLinux](https://almalinux.org/) 9's [official vagrant box](https://app.vagrantup.com/almalinux/boxes/9), using the _currently released version_.
 
 A VM can be raised with the following software components:
 
@@ -24,23 +24,23 @@ Some of the aforementioned components are optional and can be skipped if the use
 
 ## Getting Started
 
-Before starting the actual process of raising the VM through `Vagrant`, the host machine must have all necessary dependencies to run it
+Before starting the actual process of raising the VM through `Vagrant`, the host machine must have all necessary dependencies to run `Vagrant` itself, `VirtualBox` and the VM proper.
 
 **Note:** Although the standard Windows Command Prompt may be used, it is recommended to use either [Cygwin](https://cygwin.com) or [MSYS2](https://msys2.github.io) (Git Bash works as well) for proper terminal emulation through Mintty. `Vagrant` used to require a SSH binary installed on Windows, but version 2.0 onwards it is built-in.
 
-1. Download and install [Vagrant](https://www.vagrantup.com/downloads.html). Latest version should be fine, in case you find unexpected trouble try version 2.4.1 which at the time of this writing is the latest confirmed working.
+1. Download and install [Vagrant](https://www.vagrantup.com/downloads.html). Latest version should be fine, in case an unexpected trouble appears, try version 2.4.1 which at the time of this writing is the latest confirmed working.
 
-2. Install [VirtualBox](https://www.virtualbox.org/wiki/Downloads). Latest version should be fine, in case you find unexpected trouble try version 7.0.14 which at the time of this writing is the latest confirmed working.
+2. Install [VirtualBox](https://www.virtualbox.org/wiki/Downloads). Latest version should be fine, in case an unexpected trouble appears, try version 7.0.14 which at the time of this writing is the latest confirmed working.
 
 3. Clone this repository (`git clone <url>`)
 4. Go into the new directory (`cd virtualization-level-2-vagrant-setup`)
 5. Optional steps: 
     - Configure the `Vagrantfile` file to modify any exposed ports, the VM's CPU and memory resources and other aspects.
     - Add personal `ssh` private and public keys (`id_*`) to `ssh` folder. The copied keys must have been added to the user's GitHub account. They will automatically be copied to the right location when provisioning the VM.
-    - Create a `ansible/group_vars/all/custom` file (you can find an example in [`custom_example`](EXAMPLE_custom) at the root of the repository) with the desired customizations (read [this section](#customization) for more details).
+    - Create a `ansible/group_vars/all/custom` file (an example can be found in [`custom_example`](EXAMPLE_custom) at the root of the repository) with the desired customizations (read [this section](#customization) for more details).
 6. Bring up the VM: (`vagrant up`). This will provision the VM the first time it is launched, including downloading and installing all components, so it might take some minutes to complete, please be patient.
 
-Once these steps are done, you can skip to the [Working with Vagrant](#working-with-vagrant) section.
+Once these steps are done, skip to the [Working with Vagrant](#working-with-vagrant) section.
 
 ## Customization
 
@@ -54,7 +54,7 @@ In there the user can define some variables such as:
 
 - `git_user_name` and `git_user_email`: To set the user's Git name and email automatically during VM's provisioning. Both parameters are empty by default.
 - `git_user_signingkey_name`: Name of the user's private key that must be provided in the repository's `ssh` folder, this will automatically link the key to the user in Git's configuration. It is empty by default.
-- `git_recommended_config`: To automatically apply some recommended Git configurations such as rebasing instead of merging by default when pulling or automatically stashing your changes before rebasing. This is applied by default, but can be skipped by setting it to `no`.
+- `git_recommended_config`: To automatically apply some recommended Git configurations such as rebasing instead of merging by default when pulling or automatically stashing the changes before rebasing. This is applied by default, but can be skipped by setting it to `no`.
 - Set the following parameters to `yes` to install them, or set them to `no` to skip them:
     - `install_nodejs`: To install `NodeJs` and `npm`. It is set to `yes` by default.
     - `install_docker`: To install `Docker` and `Docker-Compose`. It is set to `yes` by default.
@@ -76,7 +76,7 @@ Afterwards, the VM is ready to be used as normal Linux machine that can be acces
 
 **Note:** In its current state, the `Ansible` playbook doesn't have the necessary commands to automatically provision a Desktop Environment(DE). Any applications that have their own Graphical User Interface (GUI), such as `Visual Studio Code` for example, can be accessed thanks to the `X11 Forwarding` functionality that is provisioned automatically the first time the VM is launched. For more details, read the [Ansible playbook](#ansible-playbook) section.
 
-Finally, once the VM does not need to be used further, or the user wants to "shut it down", they can do the following:
+Finally, once the VM is no longer needed, or the user wants to "shut it down", they can do the following:
 
 - Manage the VM through `VirtualBox`'s GUI as any other common VM.
 - Use the command `vagrant halt` to shut it down (use `vagrant halt -f` to force it).
@@ -86,7 +86,7 @@ Finally, once the VM does not need to be used further, or the user wants to "shu
 
 ### How to re-provision an existing VM
 
-If the user wants `Vagrant` to re-run the `Ansible` playbook to check if any package and/or component can be updated or re-installed. It can be done with the command `vagrant provision`.
+If the user wants `Vagrant` to re-run the `Ansible` playbook to check if any package and/or component can be updated or re-installed, it can be done with the command `vagrant provision`.
 
 Also, if the user has made any changes to the `custom` file to install a new component as it is stated in the [customization](#customization) section, the user can execute the `vagrant provision` command to make these changes effective.
 
@@ -120,7 +120,7 @@ In this particular case, the defined roles are:
 - `vscode`: Optionally provisions `Visual Studio Code`. It requires the `x11` role was previously executed. Once installed, it can be invoked with the command `code`.
 - `postman`: Optionally provisions `Postman`. It requires the `x11` role was previously executed. Once installed, it can be invoked with the command `postman` (ignore any error/warning messages that might appear on the terminal notifying that a graphic library is missing).
 
-Optional roles are executed by enabling them through the [custom](#customization) file if they are not [enabled by default](#what-is-the-mvp-vagrant).
+Optional roles are executed by enabling the roles through the [custom](#customization) file if they are not [enabled by default](#what-is-the-mvp-vagrant).
 
 ## Glossary
 
