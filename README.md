@@ -101,6 +101,7 @@ It includes:
 - `Docker`, `Docker-Compose`, `NodeJs` and `npm`: as they are required for compiling and running the Sample App itself.
 - `ZSH` and `OMZ`: Both are lightweight additional components that add color to the terminal.
 - `x11 forwarding`: Lightweight components that can be very useful in the lack of a DE.
+- `git`: Git is also installed but only with the `git_recommended_config` settings. The provision will lack the necessary elements to interact with any private GitHub repository unless the user goes through a login process and/or configures the Git authentication manually.
 
 ## Ansible playbook
 
