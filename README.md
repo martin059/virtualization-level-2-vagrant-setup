@@ -100,7 +100,7 @@ It includes:
 - `Ansible`: as it is required to provision the VM itself.
 - `Docker`, `Docker-Compose`, `NodeJs` and `npm`: as they are required for compiling and running the Sample App itself.
 - `ZSH` and `OMZ`: Both are lightweight additional components that add color to the terminal.
-- `x11 forwarding`: Lightweight components that can be very useful in the lack of a DE
+- `x11 forwarding`: Lightweight components that can be very useful in the lack of a DE.
 
 ## Ansible playbook
 
