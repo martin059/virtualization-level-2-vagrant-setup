@@ -7,11 +7,13 @@
 
 ################################################################################
 # The following group of elements are necessary for launching the MVP vagrant which can
-# pull from Github, compile and run the project:
+# pull from GitHub, compile and run the project. Git credentials are necessary if
+# the repository is set to 'private' as it currently stands at the time of writing:
 
 # git_user_name: <insert_username>                         # REPLACE WITH VALID CREDENTIAL
 # git_user_email: <insert_user_email>                      # REPLACE WITH VALID CREDENTIAL
 # git_user_signingkey_name: <insert_user_private_key_name> # REPLACE WITH VALID NAME
+# git_recommended_config: yes
 # install_nodejs: yes
 # install_docker: yes
 ################################################################################
