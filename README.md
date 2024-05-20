@@ -120,7 +120,7 @@ In this particular case, the defined roles are:
 - `vscode`: Optionally provisions `Visual Studio Code`. It requires the `x11` role was previously executed. Once installed, it can be invoked with the command `code`.
 - `postman`: Optionally provisions `Postman`. It requires the `x11` role was previously executed. Once installed, it can be invoked with the command `postman` (ignore any error/warning messages that might appear on the terminal notifying that a graphic library is missing).
 
-Optional roles are executed by enabling the roles through the [custom](#customization) file if they are not [enabled by default](#what-is-the-mvp-vagrant).
+Optional roles are executed by enabling the specific roles through the [custom](#customization) file if they are not [enabled by default](#what-is-the-mvp-vagrant).
 
 ## Glossary
 
