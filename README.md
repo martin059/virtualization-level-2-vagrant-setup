@@ -113,7 +113,6 @@ Also, the following ports are exposed by default:
 
 Those ports can be modified in the `Vagrantfile` as it is explained in the [Getting Started](#getting-started) section in the _Optional steps_ subsection.
 
-
 ## Ansible playbook
 
 The Ansible playbook defines a set of tasks to be executed on the VM so it can be automatically configured and provisioned with the desired components. It has a list of roles that represent different responsibilities or functions.
