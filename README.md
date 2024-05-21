@@ -106,7 +106,7 @@ It includes:
 - `x11 forwarding`: Lightweight components that can be very useful in the lack of a DE.
 - `git`: Git is also installed but only with the `git_recommended_config` settings. The provision will lack the necessary elements to interact with any private GitHub repository unless the user goes through a login process and/or configures the Git authentication manually.
 
-Also it maps the following ports by default:
+Also, the following ports are exposed by default:
 - `80`: It is reserved for the optional `PgAdmin` app.
 - `5001`: It is reserved for the Sample App's `Python API`.
 - `5002`: It is reserved for the Sample App's `Svelte App`.
