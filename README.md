@@ -93,7 +93,7 @@ If the user wants `Vagrant` to re-run the `Ansible` playbook to check if any pac
 Also, if the user has made any changes to the `custom` file to install a new component as it is stated in the [customization](#customization) section, the user can execute the `vagrant provision` command to make these changes effective.
 
 **Note:** Currently, the `Ansible` playbook lacks the commands to automatically uninstall any previously provisioned components that are no longer required.
-**Note:** "It is advised to close any SSH sessions that were opened before executing the `vagrant provision` command. Old SSH sessions may not have the newly set environment variables. For example, if a new GitHub access token is introduced via `vagrant provision`, it will not be available in any old session.
+**Note:** It is advised to close any SSH sessions that were opened before executing the `vagrant provision` command. Old SSH sessions may not have the newly set environment variables. For example, if a new GitHub access token is introduced via `vagrant provision`, it will not be available in any old session.
 
 ### What is the MVP Vagrant?
 
