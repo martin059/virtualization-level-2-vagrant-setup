@@ -42,6 +42,8 @@ Before starting the actual process of raising the VM through `Vagrant`, the host
 
 Once these steps are done, skip to the [Working with Vagrant](#working-with-vagrant) section.
 
+**Note:** During `vagrant up`, a port collision error will occur if the ports defined in the `Vagrantfile` conflict with a service already running on the host machine. To resolve this, change the port mappings in the `Vagrantfile`.
+
 ## Customization
 
 The provisioning process may be customized to determine whether some components are installed or not, and also to make some environment customizations for the user such as the Git username/email configuration or whether to install certain components or tools.
@@ -91,6 +93,7 @@ If the user wants `Vagrant` to re-run the `Ansible` playbook to check if any pac
 Also, if the user has made any changes to the `custom` file to install a new component as it is stated in the [customization](#customization) section, the user can execute the `vagrant provision` command to make these changes effective.
 
 **Note:** Currently, the `Ansible` playbook lacks the commands to automatically uninstall any previously provisioned components that are no longer required.
+**Note:** "It is advised to close any SSH sessions that were opened before executing the `vagrant provision` command. Old SSH sessions may not have the newly set environment variables. For example, if a new GitHub access token is introduced via `vagrant provision`, it will not be available in any old session.
 
 ### What is the MVP Vagrant?
 
@@ -102,6 +105,14 @@ It includes:
 - `ZSH` and `OMZ`: Both are lightweight additional components that add color to the terminal.
 - `x11 forwarding`: Lightweight components that can be very useful in the lack of a DE.
 - `git`: Git is also installed but only with the `git_recommended_config` settings. The provision will lack the necessary elements to interact with any private GitHub repository unless the user goes through a login process and/or configures the Git authentication manually.
+
+Also it maps the following ports by default:
+- `80`: It is reserved for the optional `PgAdmin` app.
+- `5001`: It is reserved for the Sample App's `Python API`.
+- `5002`: It is reserved for the Sample App's `Svelte App`.
+
+Those ports can be modified in the `Vagrantfile` as it is explained in the [Getting Started](#getting-started) section in the _Optional steps_ subsection.
+
 
 ## Ansible playbook
 
