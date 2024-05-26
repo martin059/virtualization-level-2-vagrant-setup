@@ -14,3 +14,4 @@
     - { role: pgadmin, when: install_pgadmin|bool }
     - { role: vscode, when: install_vscode|bool }
     - { role: postman, when: install_postman|bool }
+    - { role: prometheus, when: install_prometheus|bool }
