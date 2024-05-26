@@ -39,7 +39,7 @@
         dest: /home/vagrant/.zshrc
         line: 'export ZSH=$HOME/.oh-my-zsh'
 
-    - name: Copy SD theme
+    - name: Copy YS theme
       copy:
         src: ys.zsh-theme
         dest: "{{omz_home}}/themes/"
