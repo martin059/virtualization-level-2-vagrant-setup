@@ -10,6 +10,7 @@
       - tree
       - unzip
       - vim
+      - net-tools
     state: present
     update_cache: yes
 

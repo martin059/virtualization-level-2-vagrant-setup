@@ -19,12 +19,14 @@ Vagrant.configure("2") do |config|
     v.memory = $defaultMemory
     v.cpus = $defaultCPUs
 
-    config.vm.network :forwarded_port, guest: 80, host_ip: "127.0.0.1", host: 80, id: "PgAdmin"
+#    config.vm.network :forwarded_port, guest: 80, host_ip: "127.0.0.1", host: 80, id: "PgAdmin"
 #    config.vm.network :forwarded_port, guest: 3000, host_ip: "127.0.0.1", host: 3333, id: "Grafana"
 #    config.vm.network :forwarded_port, guest: 3001, host_ip: "127.0.0.1", host: 3001, id: "App debug"
-    config.vm.network :forwarded_port, guest: 5001, host_ip: "127.0.0.1", host: 5001, id: "Python API"
-    config.vm.network :forwarded_port, guest: 5002, host_ip: "127.0.0.1", host: 5002, id: "Svelte App"
+#    config.vm.network :forwarded_port, guest: 5001, host_ip: "127.0.0.1", host: 5001, id: "Python API"
+#    config.vm.network :forwarded_port, guest: 5002, host_ip: "127.0.0.1", host: 5002, id: "Svelte App"
 #    config.vm.network :forwarded_port, guest: 9090, host_ip: "127.0.0.1", host: 9090, id: "Prometheus"
+    config.vm.network :forwarded_port, guest: 9090, host_ip: "127.0.0.1", host: 9091, id: "Prometheus" # TODO Duplicated line, remove after
+    config.vm.network :forwarded_port, guest: 9100, host_ip: "127.0.0.1", host: 9191, id: "Node-Exporter"
 #    config.vm.network :forwarded_port, guest: 9093, host_ip: "127.0.0.1", host: 9093, id: "Alert Manager"
 
   end

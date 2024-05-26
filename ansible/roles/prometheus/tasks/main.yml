@@ -1,0 +1,116 @@
+---
+# Download, extract and create Prometheus service
+- name: Download Prometheus
+  get_url:
+    url: "https://github.com/prometheus/prometheus/releases/download/v2.52.0/prometheus-2.52.0.linux-amd64.tar.gz"
+    dest: "/tmp/prometheus-2.52.0.linux-amd64.tar.gz"
+    mode: '0440'
+
+- name: Create /opt/prometheus directory if it doesn't exist
+  file:
+    path: /opt/prometheus
+    state: directory
+
+- name: Extract Prometheus tarball
+  unarchive:
+    src: "/tmp/prometheus-2.52.0.linux-amd64.tar.gz"
+    dest: "/opt/prometheus"
+    remote_src: yes
+
+- name: Move Prometheus to its directory
+  command: mv /opt/prometheus/prometheus-2.52.0.linux-amd64 /opt/prometheus/prometheus
+
+- name: Create a systemd service file for Prometheus
+  copy:
+    dest: /etc/systemd/system/prometheus.service
+    content: |
+      [Unit]
+      Description=Prometheus
+      After=network.target
+      [Service]
+      User=root
+      ExecStart=/opt/prometheus/prometheus/prometheus --config.file=/opt/prometheus/prometheus/prometheus.yml
+      [Install]
+      WantedBy=default.target
+
+- name: Reload systemd to recognize Prometheus service
+  systemd:
+    daemon_reload: yes
+
+- name: Enable Prometheus service to start on boot
+  systemd:
+    name: prometheus
+    enabled: yes
+
+# Download, extract and create Node-exporter service
+- name: Download Node Exporter
+  get_url:
+    url: "https://github.com/prometheus/node_exporter/releases/download/v1.8.1/node_exporter-1.8.1.linux-amd64.tar.gz"
+    dest: "/tmp/node_exporter-1.8.1.linux-amd64.tar.gz"
+    mode: '0440'
+
+- name: Create /opt/node_exporter directory if it doesn't exist
+  file:
+    path: /opt/node_exporter
+    state: directory
+
+- name: Extract Node Exporter tarball
+  unarchive:
+    src: "/tmp/node_exporter-1.8.1.linux-amd64.tar.gz"
+    dest: "/opt/node_exporter"
+    remote_src: yes
+
+- name: Move Node Exporter to its directory
+  command: mv /opt/node_exporter/node_exporter-1.8.1.linux-amd64 /opt/node_exporter/node_exporter
+
+- name: Create a systemd service file for Node Exporter
+  copy:
+    dest: /etc/systemd/system/node_exporter.service
+    content: |
+      [Unit]
+      Description=Node Exporter
+      After=network.target
+      [Service]
+      User=root
+      ExecStart=/opt/node_exporter/node_exporter/node_exporter
+      [Install]
+      WantedBy=default.target
+
+- name: Reload systemd to recognize Node Exporter service
+  systemd:
+    daemon_reload: yes
+
+- name: Enable Node Exporter service to start on boot
+  systemd:
+    name: node_exporter
+    enabled: yes
+
+# Add Node-exporter to Prometheus config file
+- name: Modify Prometheus config file
+  blockinfile:
+    path: /opt/prometheus/prometheus/prometheus.yml
+    marker: "# {mark} ANSIBLE MANAGED BLOCK - DO NOT EDIT" # This will be added into the config file to prevent manual modification
+    block: |
+      {% filter indent(width=2, first=true) %}
+      - job_name: "node_export"
+        static_configs:
+          - targets: ["localhost:9100"]
+      {% endfilter %}
+
+# Start services
+- name: Start Node Exporter service
+  systemd:
+    name: node_exporter
+    state: started
+
+- name: Start Prometheus service
+  systemd:
+    name: prometheus
+    state: started
+
+# Remove Source folders
+- name: Remove source Prometheus folder
+  command: rm -rf /opt/prometheus/prometheus/prometheus-2.52.0.linux-amd64
+
+- name: Remove source Node-Exporter folder
+  command: rm -rf /opt/node_exporter/node_exporter/node_exporter-1.8.1.linux-amd64

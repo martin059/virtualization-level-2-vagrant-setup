@@ -29,3 +29,10 @@
 ## NOTE: ghcli_token is optional, if not declared, `gh auth` will have to
 ## be executed to carry out the github authentication process
 # ghcli_token: <insert_token>                              # REPLACE WITH VALID TOKEN
+
+################################################################################
+# The following group of elements port of the virtualization level 3 which 
+# consists of technologies to monitor the VM's resource consumption:
+
+# install_prometheus: yes
+################################################################################
