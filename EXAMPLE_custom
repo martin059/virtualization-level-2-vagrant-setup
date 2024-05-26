@@ -35,4 +35,5 @@
 # consists of technologies to monitor the VM's resource consumption:
 
 # install_prometheus: yes
+# install_grafana: yes
 ################################################################################

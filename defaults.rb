@@ -14,6 +14,7 @@ begin
   $install_pgadmin = custom['install_pgadmin'] == true
   $install_ghcli = custom['install_ghcli'] == true
   $install_prometheus = custom['install_prometheus'] == true
+  $install_grafana = custom['install_grafana'] == true
 rescue
   $install_docker = true
   $install_nodejs = true

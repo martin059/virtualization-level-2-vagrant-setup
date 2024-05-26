@@ -1,0 +1,15 @@
+---
+- name: Create {{grf_base_dir}} folder if it doesn't exist
+  file:
+    path: "{{grf_base_dir}}"
+    state: directory
+    mode: 0755
+
+- name: Copy grafana docker-compose file
+  copy:
+    src: "{{grf_compose_file_name}}"
+    dest: "{{grf_base_dir}}/{{grf_compose_file_name}}"
+
+# {{docker_compose_path}} is parameterized to fix an error where the alias can't be found
+- name: Raise Grafana container
+  command: "{{docker_compose_path}} -f {{grf_base_dir}}/{{grf_compose_file_name}} up -d"

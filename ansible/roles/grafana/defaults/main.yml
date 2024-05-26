@@ -1,0 +1,4 @@
+---
+grf_base_dir: /home/vagrant/grafana
+grf_compose_file_name: compose.yml
+docker_compose_path: /usr/local/bin/docker-compose

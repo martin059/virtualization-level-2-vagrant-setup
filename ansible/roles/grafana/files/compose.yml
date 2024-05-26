@@ -1,0 +1,19 @@
+name: grafana
+services:
+   grf:
+     image: grafana/grafana-enterprise
+     container_name: grafana
+     restart: unless-stopped
+     ports:
+      - '3000:3000'
+     volumes:
+      - grafana_vol:/var/lib/grafana
+     extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+volumes:
+   grafana_vol:
+    driver_opts:
+     type: none
+     device: /var/lib/docker/volumes/grafana_grafana_vol/_data
+     o: bind
