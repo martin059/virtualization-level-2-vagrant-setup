@@ -10,7 +10,7 @@
     - { role: ghcli, when: install_ghcli|bool }
     - { role: docker, when: install_docker|bool }
     - { role: nodejs, when: install_nodejs|bool }
-    - x11
+#    - x11
     - { role: pgadmin, when: install_pgadmin|bool }
     - { role: vscode, when: install_vscode|bool }
     - { role: postman, when: install_postman|bool }
