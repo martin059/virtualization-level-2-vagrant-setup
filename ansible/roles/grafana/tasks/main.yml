@@ -1,4 +1,5 @@
 ---
+# Container related actions:
 - name: Create {{grf_base_dir}} folder if it doesn't exist
   file:
     path: "{{grf_base_dir}}"
@@ -13,3 +14,36 @@
 # {{docker_compose_path}} is parameterized to fix an error where the alias can't be found
 - name: Raise Grafana container
   command: "{{docker_compose_path}} -f {{grf_base_dir}}/{{grf_compose_file_name}} up -d"
+
+# Utils related actions:
+- name: Create {{grf_utils_dir_dest}} folder if it doesn't exist
+  file:
+    path: "{{grf_utils_dir_dest}}"
+    state: directory
+    mode: 0755
+
+- name: Copy {{grf_utils_dir_name}} folder
+  copy:
+    src: "{{grf_utils_dir_name}}"
+    dest: "{{grf_utils_dir_dest}}"
+
+- name: Set +x permissions for all files in destination folder
+  file:
+    path: "{{grf_utils_dir_dest}}"
+    state: directory
+    mode: "+x"
+
+# Initial config related actions:
+- name: Create {{grf_base_dir}}/{{grf_initial_config_dir_name}} folder if it doesn't exist
+  file:
+    path: "{{grf_base_dir}}/{{grf_initial_config_dir_name}}"
+    state: directory
+    mode: 0755
+
+- name: Copy {{grf_config_file}} file
+  copy:
+    src: "{{grf_initial_config_dir_name}}/{{grf_config_file}}"
+    dest: "{{grf_base_dir}}/{{grf_initial_config_dir_name}}/{{grf_config_file}}"
+
+- name: Load initial Grafana configuration
+  command: "{{grf_utils_dir_dest}}/{{grf_utils_dir_name}}/restoreConfig.sh {{grf_base_dir}}/{{grf_initial_config_dir_name}}/"

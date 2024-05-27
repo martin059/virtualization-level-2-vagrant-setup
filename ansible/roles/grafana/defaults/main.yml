@@ -2,3 +2,7 @@
 grf_base_dir: /home/vagrant/grafana
 grf_compose_file_name: compose.yml
 docker_compose_path: /usr/local/bin/docker-compose
+grf_utils_dir_name: grafanaUtils
+grf_utils_dir_dest: /home/vagrant/utils
+grf_initial_config_dir_name: initialConfig
+grf_config_file: grafana.db
