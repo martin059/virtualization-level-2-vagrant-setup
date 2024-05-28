@@ -47,4 +47,4 @@
     dest: "{{grf_base_dir}}/{{grf_initial_config_dir_name}}/{{grf_config_file}}"
 
 - name: Load initial Grafana configuration
-  command: "{{grf_utils_dir_dest}}/{{grf_utils_dir_name}}/restoreConfig.sh {{grf_base_dir}}/{{grf_initial_config_dir_name}}/"
+  command: "bash {{grf_utils_dir_dest}}/{{grf_utils_dir_name}}/restoreConfig.sh {{grf_base_dir}}/{{grf_initial_config_dir_name}}/"
