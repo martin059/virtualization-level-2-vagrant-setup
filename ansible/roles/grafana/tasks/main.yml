@@ -41,10 +41,16 @@
     state: directory
     mode: 0755
 
-- name: Copy {{grf_config_file}} file
+#- name: Copy {{grf_config_file}} file
+#  copy:
+#    src: "{{grf_initial_config_dir_name}}/{{grf_config_file}}"
+#    dest: "{{grf_base_dir}}/{{grf_initial_config_dir_name}}/{{grf_config_file}}"
+
+- name: Copy {{grf_config_file}}.zip file
   copy:
-    src: "{{grf_initial_config_dir_name}}/{{grf_config_file}}"
-    dest: "{{grf_base_dir}}/{{grf_initial_config_dir_name}}/{{grf_config_file}}"
+    src: "{{grf_initial_config_dir_name}}/{{grf_config_file}}.zip"
+    dest: "{{grf_base_dir}}/{{grf_initial_config_dir_name}}/{{grf_config_file}}.zip"
 
 - name: Load initial Grafana configuration
-  command: "bash {{grf_utils_dir_dest}}/{{grf_utils_dir_name}}/restoreConfig.sh {{grf_base_dir}}/{{grf_initial_config_dir_name}}/"
+  command: "bash {{grf_utils_dir_dest}}/{{grf_utils_dir_name}}/restoreConfig.sh {{grf_base_dir}}/{{grf_initial_config_dir_name}}/ {{grafana_config_pwd}}"
+  when: grafana_config_pwd != ''
