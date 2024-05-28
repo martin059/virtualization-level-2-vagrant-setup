@@ -32,6 +32,7 @@
     path: "{{grf_utils_dir_dest}}"
     state: directory
     mode: "+x"
+    recurse: yes
 
 # Initial config related actions:
 - name: Create {{grf_base_dir}}/{{grf_initial_config_dir_name}} folder if it doesn't exist
