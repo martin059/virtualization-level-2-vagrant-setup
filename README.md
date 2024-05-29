@@ -1,5 +1,13 @@
-This projects contains the main projects' two top levels. TODO
+# Second and Third virtualization levels
 
+This repository contains two of the main project's three levels. The first level, which is stored in a separate repository, is not included here. Each virtualization level has its own specific role.
+
+This section of the project is based on a [Vagrant](https://www.vagrantup.com/) virtual machine (VM) provisioned with an [Ansible](https://www.ansible.com/) playbook.
+
+## Contents
+
+- [Second and Third virtualization levels](#second-and-third-virtualization-levels)
+  - [Contents](#contents)
 - [1. Second Virtualization level: Vagrant set up script](#1-second-virtualization-level-vagrant-set-up-script)
   - [1.1. Ansible playbook for second level](#11-ansible-playbook-for-second-level)
 - [2. Third Virtualization level: Resource monitoring](#2-third-virtualization-level-resource-monitoring)
@@ -18,9 +26,9 @@ This projects contains the main projects' two top levels. TODO
 
 # 1. Second Virtualization level: Vagrant set up script
 
-This section of the project contains the required scripts for automatically deploying and provisioning a Virtual Machine (VM) capable of developing and running the Sample App made for the [1st virtualization level](https://github.com/martin059/vitualization-level-1-prototype-app).
+This section of the project contains the necessary scripts for automatically deploying and provisioning a virtual machine (VM) capable of developing and running the Sample App for the [first virtualization level](https://github.com/martin059/vitualization-level-1-prototype-app).
 
-The aim of this project is to provide a way to quickly create and configure lightweight, reproducible, and portable development and demo environments using [Ansible](https://www.ansible.com/) playbooks and roles. The environment can be brought up and managed using [Vagrant](https://www.vagrantup.com/).
+The aim of this level is to provide a way to quickly create and configure lightweight, reproducible, and portable development and demo environments using [Ansible](https://www.ansible.com/) playbooks and roles. The environment can be brought up and managed using [Vagrant](https://www.vagrantup.com/).
 
 The VM is built on top of the [AlmaLinux](https://almalinux.org/) 9's [official vagrant box](https://app.vagrantup.com/almalinux/boxes/9), using the _currently released version_.
 
@@ -36,31 +44,31 @@ A VM can be raised with the following software components:
  - [Postman](https://www.postman.com/)
  - [Z Shell](https://www.zsh.org/) (including [Oh My Zsh](https://ohmyz.sh/))
 
-**Note:** There are more roles but those will be mentioned in the [Third level](#third-virtualization-level-resource-monitoring).
+**Note:** There are more roles but those will be mentioned in the [Third level](#2-third-virtualization-level-resource-monitoring).
 
-Unless it is explicitly mentioned in the component's `Ansible` playbook, the latest stable version of each software component will be pulled from their respective repository, otherwise a specific version will be pulled instead (for example, latest stable `postman` v9.x is used instead of the current default v10.x). For more details, see the [Ansible playbook](#ansible-playbook) section.
+Unless explicitly mentioned in the component's `Ansible` playbook, the latest stable version of each software component will be pulled from their respective repositories. Otherwise, a specific version will be pulled (for example, the latest stable `Postman` v9.x is used instead of the current default v10.x). For more details, see the [Ansible playbook](#11-ansible-playbook-for-second-level) section.
 
-Some of the aforementioned components are optional and can be skipped if the user wants to make their VM as light as possible with it having only the minimum required components, see [how to customize the solution](#how-to-customize-the-solution) section for more details.
+Some of the aforementioned components are optional and can be skipped if the user wants to make their VM as light as possible, including only the minimum required components. For more details on customization, see the [Customization for the second level](#321-customization-for-the-second-level) section.
 
 ## 1.1. Ansible playbook for second level
 
-The Ansible playbook defines a set of tasks to be executed on the VM so it can be automatically configured and provisioned with the desired components. It has a list of roles that represent different responsibilities or functions.
+The Ansible playbook defines a set of tasks to be executed on the VM to automatically configure and provision it with the desired components. It includes a list of roles, each representing a different responsibility or function.
 
-In this particular case, the defined roles are:
+In this case, the defined roles are:
 
 - `vagrant`: Copies files from the Host's folder to the VM itself, specially things like `ssh` keys, `bash` scripts and `Ansible` scripts. It also sets the VM's time zone.
-- `developer`: Sets the VM with useful development tools such as [Vim](https://www.vim.org/), [ack](https://linux.die.net/man/1/ack) or [curl](https://linux.die.net/man/1/curl) among others. And it also sets the Git's configuration.
-- `zsh`: Provisions ZSH.
-- `zsh-omz`: Provisions OMZ, sets it as the default shell and configures [ys](https://github.com/martin059/virtualization-level-2-vagrant-setup/blob/master/ansible/roles/zsh-omz/files/ys.zsh-theme) as the default theme.
-- `ghcli`: Optionally provisions GH and configures it with the access token that the user provided.
+- `developer`: Sets the VM with useful development tools such as [Vim](https://www.vim.org/), [ack](https://linux.die.net/man/1/ack) or [curl](https://linux.die.net/man/1/curl) among others. And it also sets the `git`'s configuration.
+- `zsh`: Provisions `ZSH`.
+- `zsh-omz`: Provisions `OMZ`, sets it as the default shell and configures [ys](https://github.com/martin059/virtualization-level-2-vagrant-setup/blob/master/ansible/roles/zsh-omz/files/ys.zsh-theme) as the default theme.
+- `ghcli`: Optionally provisions `GH` and configures it with the access token that the user provided.
 - `docker`: Optionally provisions `Docker` and `Docker-Compose`. Then, it sets the `docker` service to start automatically with the VM and adds the `vagrant` user to its permissions group so it can execute `docker` commands without root privileges.
 - `nodejs`: Optionally provisions `Nodejs` and `npm`.
 - `x11`: Provisions all required dependencies and configurations for `X11 Forwarding` functionality.
-- `pgadmin`: Optionally provisions `PgAdmin`. It depends on the previous provisioning of the `docker` role. If that role wasn't provisioned before, `Ansible` will trigger the provisioning of the dependency before continuing with `PgAdmin`. This component is exposed as a web service that can be accessed at http://localhost:80/ with the credentials: `user@domain.com`//`abc123.`.
+- `pgadmin`: Optionally provisions `PgAdmin`. It depends on the previous provisioning of the `docker` role. If that role was not provisioned before, `Ansible` will trigger the provisioning of the dependency before continuing with `PgAdmin`. This component is exposed as a web service that can be accessed at http://localhost:80/ with the credentials: `user@domain.com`//`abc123`.
 - `vscode`: Optionally provisions `Visual Studio Code`. It requires the `x11` role was previously executed. Once installed, it can be invoked with the command `code`.
 - `postman`: Optionally provisions `Postman`. It requires the `x11` role was previously executed. Once installed, it can be invoked with the command `postman` (ignore any error/warning messages that might appear on the terminal notifying that a graphic library is missing).
 
-Optional roles are executed by enabling the specific roles through the [custom](#customization) file if they are not [enabled by default](#what-is-the-mvp-vagrant).
+Optional roles are executed by enabling the specific roles through the [custom](#32-customization) file if they are not [enabled by default](#332-what-is-the-mvp-vagrant).
 
 # 2. Third Virtualization level: Resource monitoring
 
