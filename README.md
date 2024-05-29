@@ -64,7 +64,7 @@ In this case, the defined roles are:
 - `docker`: Optionally provisions `Docker` and `Docker-Compose`. Then, it sets the `docker` service to start automatically with the VM and adds the `vagrant` user to its permissions group so it can execute `docker` commands without root privileges.
 - `nodejs`: Optionally provisions `Nodejs` and `npm`.
 - `x11`: Provisions all required dependencies and configurations for `X11 Forwarding` functionality.
-- `pgadmin`: Optionally provisions `PgAdmin`. It depends on the previous provisioning of the `docker` role. If that role was not provisioned before, `Ansible` will trigger the provisioning of the dependency before continuing with `PgAdmin`. This component is exposed as a web service that can be accessed at http://localhost:80/ with the credentials: `user@domain.com`//`abc123`.
+- `pgadmin`: Optionally provisions `PgAdmin`. It depends on the previous provisioning of the `docker` role. If that role was not provisioned before, Ansible will trigger the provisioning of the dependency before continuing with `PgAdmin`. This component is exposed as a web service that can be accessed at http://localhost:80/ with the credentials: `user@domain.com`//`abc123`.
 - `vscode`: Optionally provisions `Visual Studio Code`. It requires the `x11` role was previously executed. Once installed, it can be invoked with the command `code`.
 - `postman`: Optionally provisions `Postman`. It requires the `x11` role was previously executed. Once installed, it can be invoked with the command `postman` (ignore any error/warning messages that might appear on the terminal notifying that a graphic library is missing).
 
@@ -72,11 +72,20 @@ Optional roles are executed by enabling the specific roles through the [custom](
 
 # 2. Third Virtualization level: Resource monitoring
 
-TODO
+This section of the project contains the necessary Ansible playbooks for automatically provisioning a [Prometheus](https://prometheus.io/) (with [Node Exporter](https://github.com/prometheus/node_exporter)) service on a VM. Prometheus is used to monitor the VM's resource utilization, such as CPU load. The project also includes a [Grafana](https://grafana.com/) instance. The Grafana instance uses the data provided by the Prometheus service to populate a dashboard. This dashboard can display resource utilization data and Grafana can send customizable alerts.
+
+The aim of this third level is to provide a way to register, monitor, and control a machine's resource utilization. This can be useful in cases where the consumption of these resources incurs a cost, such as a VM running in a cloud service or a continuous deployment node that should not remain blocked for an extended period of time.
+
+In the default use case of this project, Grafana monitors the Vagrant VM's CPU load and alerts an external service like [Slack](https://slack.com/intl/en-gb/) if the load exceeds 20% for at least 20 seconds.
 
 ## 2.1. Ansible playbook for third level
 
-TODO
+This level includes the following Ansible roles, which build upon those described in the [Second level's section](#11-ansible-playbook-for-second-level):
+
+- `prometheus`: Optionally provisions a `Prometheus` service. It downloads, installs and configures the service to start when the VM boots. It also downloads, installs and configures `Node Exporter`.
+- `grafana`: Optionally provisions a `Grafana` instance tries to configure it with base configuration file. It depends on the previous provisioning of the `docker` role. If that role was not provisioned before, Ansible will trigger the provisioning of the dependency before continuing with `Grafana`. This component is exposed as a web service that can be accessed at http://localhost:3334/ with the credentials: `admin`//`admin`.
+
+Optional roles are executed by enabling the specific roles through the [custom](#32-customization) file if they are not [enabled by default](#332-what-is-the-mvp-vagrant).
 
 # 3. Working with the project
 
@@ -97,10 +106,10 @@ Before starting the actual process of raising the VM through `Vagrant`, the host
 5. Optional steps: 
     - Configure the `Vagrantfile` file to modify any exposed ports, the VM's CPU and memory resources and other aspects.
     - Add personal `ssh` private and public keys (`id_*`) to `ssh` folder. The copied keys must have been added to the user's GitHub account. They will automatically be copied to the right location when provisioning the VM.
-    - Create a `ansible/group_vars/all/custom` file (an example can be found in [`custom_example`](EXAMPLE_custom) at the root of the repository) with the desired customizations (read [this section](#customization) for more details).
+    - Create a `ansible/group_vars/all/custom` file (an example can be found in [`custom_example`](EXAMPLE_custom) at the root of the repository) with the desired customizations (read [this section](#32-customization) for more details).
 6. Bring up the VM: (`vagrant up`). This will provision the VM the first time it is launched, including downloading and installing all components, so it might take some minutes to complete, please be patient.
 
-Once these steps are done, skip to the [Working with Vagrant](#working-with-vagrant) section.
+Once these steps are done, skip to the [Working with Vagrant](#33-working-with-vagrant) section.
 
 **Note:** During `vagrant up`, a port collision error will occur if the ports defined in the `Vagrantfile` conflict with a service already running on the host machine. To resolve this, change the port mappings in the `Vagrantfile`.
 
@@ -112,7 +121,7 @@ TODO
 
 The provisioning process may be customized to determine whether some components are installed or not, and also to make some environment customizations for the user such as the Git username/email configuration or whether to install certain components or tools.
 
-**Note:** By default, the `Vagrantfile` and the `Ansible` playbook are configured to set up the "Minimum Viable Product (MVP) Vagrant". For more details read the [What is the MVP Vagrant?](#what-is-the-mvp-vagrant) section.
+**Note:** By default, the `Vagrantfile` and the `Ansible` playbook are configured to set up the "Minimum Viable Product (MVP) Vagrant". For more details read the [What is the MVP Vagrant?](#332-what-is-the-mvp-vagrant) section.
 
 To customize the provisioning process, it is needed to create a `provision/ansible/group_vars/all/custom` file (an example can be found in [`custom_example`](EXAMPLE_custom) at the root of the repository).
 
@@ -130,7 +139,7 @@ In there the user can define some variables such as:
     - `install_ghcli`: To install `GitHub CLI`. It is set to `no` by default.
 - `ghcli_token`: If `install_ghcli` is set to `yes`, the user can add their own [GitHub access token](https://docs.github.com/en/enterprise-server@3.12/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens) so it can be automatically set during VM's provisioning. It is empty by default.
 
-If the customization needs to be modified after the initial provisioning process and/or some dependencies have had a newer version released, this can be done automatically. For more details read the [How to re-provision an existing VM](#how-to-re-provision-an-existing-vm) section.
+If the customization needs to be modified after the initial provisioning process and/or some dependencies have had a newer version released, this can be done automatically. For more details read the [How to re-provision an existing VM](#331-how-to-re-provision-an-existing-vm) section.
 
 ### 3.2.2. Customization for the third level
 
@@ -144,7 +153,7 @@ Once the VM is up and running, one can run `vagrant ssh` to log into it, or it c
 
 Afterwards, the VM is ready to be used as normal Linux machine that can be accessed through Secure Shell (SSH) protocol.
 
-**Note:** In its current state, the `Ansible` playbook doesn't have the necessary commands to automatically provision a Desktop Environment(DE). Any applications that have their own Graphical User Interface (GUI), such as `Visual Studio Code` for example, can be accessed thanks to the `X11 Forwarding` functionality that is provisioned automatically the first time the VM is launched. For more details, read the [Ansible playbook](#ansible-playbook) section.
+**Note:** In its current state, the `Ansible` playbook doesn't have the necessary commands to automatically provision a Desktop Environment(DE). Any applications that have their own Graphical User Interface (GUI), such as `Visual Studio Code` for example, can be accessed thanks to the `X11 Forwarding` functionality that is provisioned automatically the first time the VM is launched. For more details, read the [Ansible playbook](#11-ansible-playbook-for-second-level) section.
 
 Finally, once the VM is no longer needed, or the user wants to "shut it down", they can do the following:
 
@@ -158,7 +167,7 @@ Finally, once the VM is no longer needed, or the user wants to "shut it down", t
 
 If the user wants `Vagrant` to re-run the `Ansible` playbook to check if any package and/or component can be updated or re-installed, it can be done with the command `vagrant provision`.
 
-Also, if the user has made any changes to the `custom` file to install a new component as it is stated in the [customization](#customization) section, the user can execute the `vagrant provision` command to make these changes effective.
+Also, if the user has made any changes to the `custom` file to install a new component as it is stated in the [customization](#32-customization) section, the user can execute the `vagrant provision` command to make these changes effective.
 
 **Note:** Currently, the `Ansible` playbook lacks the commands to automatically uninstall any previously provisioned components that are no longer required.
 **Note:** It is advised to close any SSH sessions that were opened before executing the `vagrant provision` command. Old SSH sessions may not have the newly set environment variables. For example, if a new GitHub access token is introduced via `vagrant provision`, it will not be available in any old session.
@@ -179,7 +188,7 @@ Also, the following ports are exposed by default:
 - `5001`: It is reserved for the Sample App's `Python API`.
 - `5002`: It is reserved for the Sample App's `Svelte App`.
 
-Those ports can be modified in the `Vagrantfile` as it is explained in the [Getting Started](#getting-started) section in the _Optional steps_ subsection.
+Those ports can be modified in the `Vagrantfile` as it is explained in the [Getting Started](#31-getting-started) section in the _Optional steps_ subsection.
 
 TODO expand with lvl 3
 
