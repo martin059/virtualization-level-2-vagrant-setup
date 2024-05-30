@@ -11,5 +11,6 @@ install_docker: yes
 install_nodejs: yes
 install_vscode: no
 install_postman: no
-install_prometheus: no
-install_grafana: no
+install_prometheus: yes
+preconfigure_grafana: yes
+install_grafana: yes
