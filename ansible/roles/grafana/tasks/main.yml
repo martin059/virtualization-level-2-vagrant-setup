@@ -41,16 +41,20 @@
     state: directory
     mode: 0755
 
-#- name: Copy {{grf_config_file}} file
-#  copy:
-#    src: "{{grf_initial_config_dir_name}}/{{grf_config_file}}"
-#    dest: "{{grf_base_dir}}/{{grf_initial_config_dir_name}}/{{grf_config_file}}"
-
-- name: Copy {{grf_config_file}}.zip file
+- name: Copy {{grf_open_config_file}} file
   copy:
-    src: "{{grf_initial_config_dir_name}}/{{grf_config_file}}.zip"
-    dest: "{{grf_base_dir}}/{{grf_initial_config_dir_name}}/{{grf_config_file}}.zip"
+    src: "{{grf_initial_config_dir_name}}/{{grf_open_config_file}}"
+    dest: "{{grf_base_dir}}/{{grf_initial_config_dir_name}}/{{grf_open_config_file}}"
 
-- name: Load initial Grafana configuration
+- name: Copy {{grf_encrypted_config_file}} file
+  copy:
+    src: "{{grf_initial_config_dir_name}}/{{grf_encrypted_config_file}}"
+    dest: "{{grf_base_dir}}/{{grf_initial_config_dir_name}}/{{grf_encrypted_config_file}}"
+
+- name: Load initial Grafana configuration with password
   command: "bash {{grf_utils_dir_dest}}/{{grf_utils_dir_name}}/restoreConfig.sh {{grf_base_dir}}/{{grf_initial_config_dir_name}}/ {{grafana_config_pwd}}"
-  when: grafana_config_pwd != ''
+  when: preconfigure_grafana and grafana_config_pwd is defined
+
+- name: Load initial Grafana configuration without password
+  command: "bash {{grf_utils_dir_dest}}/{{grf_utils_dir_name}}/restoreConfig.sh {{grf_base_dir}}/{{grf_initial_config_dir_name}}/"
+  when: preconfigure_grafana and grafana_config_pwd is undefined

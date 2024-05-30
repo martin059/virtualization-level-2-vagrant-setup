@@ -36,5 +36,6 @@
 
 # install_prometheus: yes
 # install_grafana: yes
+# preconfigure_grafana: yes
 # grafana_config_pwd: <insert_password>                   # REPLACE WITH VALID PASSWORD
 ################################################################################
