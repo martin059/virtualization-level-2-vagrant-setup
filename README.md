@@ -67,7 +67,7 @@ In this case, the defined roles are:
 - `x11`: Provisions all required dependencies and configurations for `X11 Forwarding` functionality.
 - `pgadmin`: Optionally provisions `PgAdmin`. It depends on the previous provisioning of the `docker` role. If that role was not provisioned before, Ansible will trigger the provisioning of the dependency before continuing with `PgAdmin`. This component is exposed as a web service that can be accessed at http://localhost:80/ with the credentials: `user@domain.com`//`abc123`.
 - `vscode`: Optionally provisions `Visual Studio Code`. It requires the `x11` role was previously executed. Once installed, it can be invoked with the command `code`.
-- `postman`: Optionally provisions `Postman`. It requires the `x11` role was previously executed. Once installed, it can be invoked with the command `postman` (ignore any error/warning messages that might appear on the terminal notifying that a graphic library is missing).
+- `postman`: Optionally provisions `Postman`. It requires the `x11` role was previously executed. Once installed, it can be invoked with the command `postman` (there is a known issue with the graphical library dependencies, for more details read the [known issues](#34-known-issues) section).
 
 Optional roles are executed by enabling the specific roles through the [custom](#32-customization) file if they are not [enabled by default](#332-what-is-the-mvp-vagrant).
 
@@ -146,7 +146,7 @@ For the functionality related to the third level's role, the user can define the
 - `install_grafana`: To install `Grafana` and its pre-made configuration. It is set to `yes` by default.
 - `grafana_config_pwd`: Secret password that the will be used to decipher the encrypted zip file that contains the pre-made configuration for `Grafana` which contains a private Slack webhook in it. 
 
-**Note:** Currently, there is a known issue for the provisioning of the `Grafana` configuration. If the user wants to install it but does not provide the correct password in `grafana_config_pwd`. For more details, read the [known issues](#34-known-issues) section.
+**Note:** Currently, there is a known issue for the provisioning of the `Grafana` configuration. If the user wants to install it but does not provide the correct password in `grafana_config_pwd` the Ansible playbook will fail and leave the Grafana instance without configuration. For more details, read the [known issues](#34-known-issues) section.
 
 If the customization needs to be modified after the initial provisioning process and/or some dependencies have had a newer version released, this can be done automatically. For more details read the [How to re-provision an existing VM](#331-how-to-re-provision-an-existing-vm) section.
 
@@ -206,11 +206,29 @@ Those ports can be modified in the `Vagrantfile` as it is explained in the [Gett
 
 ## 3.4. Known issues
 
-TODO
+This section contains all currently known issues for the second and third levels of the project. Each have their respective GitHub issue opened in the repository with the `bug` tag.
+
+Most of them have manual fixes and/or workarounds which are described in the [Fixes and Workarounds](#35-fixes-and-workarounds) section.
+
+- **Postman's GUI issue**: the postman app will not be capable of importing an internal collection due to a graphical bug were the file explorer windows that window cannot be interacted with. Related issue: #37
+- **Grafana might be unreachable after provisioning**: Sometimes when Ansible provisions the configuration for the Grafana container instance, the service is left in a bad state and keeps restarting over and over unless manually stopped. Related issue: #54
+- **Missing default pre-made grafana configuration**: The Ansible playbook's task that provisions the Grafana configuration will fail is a correct password is not given to decrypt the pre-made configuration. Related issue: #55
 
 ## 3.5. Fixes and Workarounds
 
-TODO
+This section contains the currently known manual fixes and/or workarounds for the [known issues](#34-known-issues).
+
+- **Workaround for Postman's GUI issue**, which prevents the importing an internal collection:
+  1. In the import menu: instead of `File`, select the `Link` tab.
+  2. Copy the URL to the **raw** file of the postman collection from [its repository](https://github.com/martin059/virtualization-level-1-prototype-app/blob/master/postman_testing_requests/testing-postman-collection.json).
+  3. Click on `Continue`
+- **Manual fix for Grafana being unreachable**, starting from a newly established SSH session to the `vagrant` user, execute the following commands in order:
+  1. `cd grafana/`
+  2. `docker compose down -v`
+  3. `sudo rm -f initialConfig/grafana.db` (This is to prevent a prompt asking confirmation to  rewrite the file)
+  4. `docker compose up -d`
+  5. `sudo bash /home/vagrant/utils/grafanaUtils/restoreConfig.sh /home/vagrant/grafana/initialConfig/ <grafana_config_pwd>`
+- **Missing default pre-made grafana configuration**: The user will have to manually configure Grafana through its GUI.
 
 # 4. Glossary
 
