@@ -220,7 +220,7 @@ The tests were executed on a laptop workstation with the following specification
 - GPU: NVIDIA Quadro T2000
 - RAM: 32,0 GB DDR4 2400 MHz
 - OS: Windows 10 Enterprise 22H2
-- Storage: Western Digital SN720 NVMe SSD 256GB (over 90% of the disk was free)
+- Storage: Western Digital SN720 NVMe SSD 256GB (over 90% of the disk space was available)
 - Internet Connection: 1 Gigabit connection through WiFi 6 (802.11ax)
 
 #### 3.3.3.1. Basic - all default
