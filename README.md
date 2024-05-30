@@ -183,7 +183,7 @@ Also, if the user has made any changes to the `custom` file to install a new com
 The Minimum Viable Product Vagrant, or MVP Vagrant, refers to the vagrant with the minimum required software to run:
 
 - The Sample App made for the [first virtualization level](https://github.com/martin059/vitualization-level-1-prototype-app) 
-- An instance coupled with Prometheus to monitor the Vagrant VM's CPU usage.
+- A Grafana instance coupled with Prometheus to monitor the Vagrant VM's CPU usage.
 - A Few dependencies to improve the user-experience.
 
 It includes:
