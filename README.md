@@ -4,10 +4,10 @@ This repository contains two of the main project's three levels. The first level
 
 This section of the project is based on a [Vagrant](https://www.vagrantup.com/) virtual machine (VM) provisioned with an [Ansible](https://www.ansible.com/) playbook.
 
-## Table of Contents
+# Table of Contents
 
 - [Second and Third virtualization levels](#second-and-third-virtualization-levels)
-  - [Table of Contents](#table-of-contents)
+- [Table of Contents](#table-of-contents)
 - [1. Second Virtualization level: Vagrant set up script](#1-second-virtualization-level-vagrant-set-up-script)
   - [1.1. Ansible playbook for second level](#11-ansible-playbook-for-second-level)
 - [2. Third Virtualization level: Resource monitoring](#2-third-virtualization-level-resource-monitoring)
@@ -20,6 +20,9 @@ This section of the project is based on a [Vagrant](https://www.vagrantup.com/) 
   - [3.3. Working with Vagrant](#33-working-with-vagrant)
     - [3.3.1. How to re-provision an existing VM](#331-how-to-re-provision-an-existing-vm)
     - [3.3.2. What is the MVP Vagrant?](#332-what-is-the-mvp-vagrant)
+    - [3.3.3. How long does it take to execute and how much disk space does it needs?](#333-how-long-does-it-take-to-execute-and-how-much-disk-space-does-it-needs)
+      - [3.3.3.1. Basic - all default](#3331-basic---all-default)
+      - [3.3.3.2. Full - all options enabled](#3332-full---all-options-enabled)
   - [3.4. Known issues](#34-known-issues)
   - [3.5. Fixes and Workarounds](#35-fixes-and-workarounds)
 - [4. Glossary](#4-glossary)
@@ -204,6 +207,53 @@ Also, the following ports are exposed by default:
 - `9191`: It is reserved for the Node Exporter GUI.
 
 Those ports can be modified in the `Vagrantfile` as it is explained in the [Getting Started](#31-getting-started) section in the _Optional steps_ subsection.
+
+### 3.3.3. How long does it take to execute and how much disk space does it needs?
+
+The following measurements provide an idea of the project's scale and the hardware requirements for the device that will execute it.
+
+These measurements were conducted with an Almalinux 9 box image cached in local storage. Without this cache, the execution times would have been longer.
+
+The tests were executed on a laptop workstation with the following specifications:
+
+- CPU:  Intel(R) Core(TM) i7-9850H CPU
+- GPU: NVIDIA Quadro T2000
+- RAM: 32,0 GB DDR4 2400 MHz
+- OS: Windows 10 Enterprise 22H2
+- Storage: Western Digital SN720 NVMe SSD 256GB (over 90% of the disk was free)
+- Internet Connection: 1 Gigabit connection through WiFi 6 (802.11ax)
+
+#### 3.3.3.1. Basic - all default
+
+```bash
+PLAY RECAP *********************************************************************
+vagrant                    : ok=68   changed=51   unreachable=0    failed=0    skipped=25   rescued=0    ignored=0
+
+
+real    4m11.536s
+user    0m0.000s
+sys     0m0.031s
+```
+
+Disk requirements of a default installation: 
+- Size:         3,94 GB (4.238.220.686 bytes)
+- Size on disk: 3,94 GB (4.238.712.832 bytes)
+
+#### 3.3.3.2. Full - all options enabled
+
+```bash
+PLAY RECAP *********************************************************************
+vagrant                    : ok=85   changed=67   unreachable=0    failed=0    skipped=1    rescued=0    ignored=0
+
+
+real    6m18.599s
+user    0m0.000s
+sys     0m0.031s
+````
+
+Disk requirements of a full installation: 
+- Size:         5,72 GB (6.147.218.830 bytes)
+- Size on disk: 5,72 GB (6.147.710.976 bytes)
 
 ## 3.4. Known issues
 
