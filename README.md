@@ -4,10 +4,10 @@ This repository contains two of the main project's three levels. The first level
 
 This section of the project is based on a [Vagrant](https://www.vagrantup.com/) virtual machine (VM) provisioned with an [Ansible](https://www.ansible.com/) playbook.
 
-## Contents
+## Table of Contents
 
 - [Second and Third virtualization levels](#second-and-third-virtualization-levels)
-  - [Contents](#contents)
+  - [Table of Contents](#table-of-contents)
 - [1. Second Virtualization level: Vagrant set up script](#1-second-virtualization-level-vagrant-set-up-script)
   - [1.1. Ansible playbook for second level](#11-ansible-playbook-for-second-level)
 - [2. Third Virtualization level: Resource monitoring](#2-third-virtualization-level-resource-monitoring)
@@ -38,7 +38,7 @@ A VM can be raised with the following software components:
  - [Docker](https://www.docker.com/) (including [Docker-Compose](https://docs.docker.com/compose/))
  - [NodeJs](https://nodejs.org/en) (including [npm](https://www.npmjs.com/))
  - [Git](https://git-scm.com/downloads) (including [GitHub CLI](https://cli.github.com/))
- - [X11 Fowarding](https://www.x.org/wiki/)
+ - [X11 Forwarding](https://www.x.org/wiki/)
  - [PgAdmin](https://www.pgadmin.org/)
  - [Visual Studio Code](https://code.visualstudio.com/)
  - [Postman](https://www.postman.com/)
@@ -149,7 +149,7 @@ TODO
 
 Once the VM is up and running, one can run `vagrant ssh` to log into it, or it can also be done manually with `ssh -p <port-number> vagrant@127.0.0.1` (the port number is usually _2222_, but it might change if multiple VMs are running at the same time). The appropriate SSH client configuration can be seen by running `vagrant ssh-config`. The default passwords for `root` and `vagrant` users is `vagrant` (as usual for Vagrant boxes).
 
-**Note:** If the `vagrant ssh` command is being runned in Mintty (Cygwin/MSYS2/Git Bash terminal emulator) instead of the standard Windows console host, it is also needed to define the `VAGRANT_PREFER_SYSTEM_BIN` environment variable and set it to `1`, e.g. by adding `export VAGRANT_PREFER_SYSTEM_BIN=1` to the `~/.bashrc` file (`~/.zshrc` if using ZSH). Otherwise Vagrant will use its built-in SSH client which is meant for the Windows console and can cause trouble with other terminal implementations.
+**Note:** If the `vagrant ssh` command is being executed in Mintty (Cygwin/MSYS2/Git Bash terminal emulator) instead of the standard Windows console host, it is also needed to define the `VAGRANT_PREFER_SYSTEM_BIN` environment variable and set it to `1`, e.g. by adding `export VAGRANT_PREFER_SYSTEM_BIN=1` to the `~/.bashrc` file (`~/.zshrc` if using ZSH). Otherwise Vagrant will use its built-in SSH client which is meant for the Windows console and can cause trouble with other terminal implementations.
 
 Afterwards, the VM is ready to be used as normal Linux machine that can be accessed through Secure Shell (SSH) protocol.
 
