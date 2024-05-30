@@ -61,7 +61,7 @@ In this case, the defined roles are:
 - `developer`: Sets the VM with useful development tools such as [Vim](https://www.vim.org/), [ack](https://linux.die.net/man/1/ack) or [curl](https://linux.die.net/man/1/curl) among others. And it also sets the `git`'s configuration.
 - `zsh`: Provisions `ZSH`.
 - `zsh-omz`: Provisions `OMZ`, sets it as the default shell and configures [ys](https://github.com/martin059/virtualization-level-2-vagrant-setup/blob/master/ansible/roles/zsh-omz/files/ys.zsh-theme) as the default theme.
-- `ghcli`: Optionally provisions `GH` and configures it with the access token that the user provided.
+- `ghcli`: Optionally provisions `GitHub CLI` (GH) and configures it with the access token that the user provided.
 - `docker`: Optionally provisions `Docker` and `Docker-Compose`. Then, it sets the `docker` service to start automatically with the VM and adds the `vagrant` user to its permissions group so it can execute `docker` commands without root privileges.
 - `nodejs`: Optionally provisions `Nodejs` and `npm`.
 - `x11`: Provisions all required dependencies and configurations for `X11 Forwarding` functionality.
