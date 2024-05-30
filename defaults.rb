@@ -15,9 +15,13 @@ begin
   $install_ghcli = custom['install_ghcli'] == true
   $install_prometheus = custom['install_prometheus'] == true
   $install_grafana = custom['install_grafana'] == true
+  $preconfigure_grafana = custom['preconfigure_grafana'] == true
 rescue
   $install_docker = true
   $install_nodejs = true
+  $install_prometheus = true
+  $install_grafana = true
+  $preconfigure_grafana = true
 end
 
 $defaultCPUs = 4
