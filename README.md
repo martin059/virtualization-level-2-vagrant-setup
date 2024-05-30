@@ -164,7 +164,7 @@ Finally, once the VM is no longer needed, or the user wants to "shut it down", t
 
 - Manage the VM through `VirtualBox`'s GUI as any other common VM.
 - Use the command `vagrant halt` to shut it down (use `vagrant halt -f` to force it).
-- Use the command `vagrant destroy` to undefine the VM entirely, also deleting any associated virtual drives it might have (use `vagrant destroy -f` to force it).
+- Use the command `vagrant destroy` to undefine the VM entirely, also deleting any associated virtual drives it might have (use `vagrant destroy -f` to force it). This is **irreversible** and all information on the VM's drive will be lost.
 
 **Note:** The command `vagrant up` can also be used to re-start a previously shutdown vagrant VM.
 
