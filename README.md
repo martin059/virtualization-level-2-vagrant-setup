@@ -170,11 +170,11 @@ Finally, once the VM is no longer needed, or the user wants to "shut it down", t
 
 ### 3.3.1. How to re-provision an existing VM
 
-If the user wants `Vagrant` to re-run the `Ansible` playbook to check if any package and/or component can be updated or re-installed, it can be done with the command `vagrant provision`.
+If the user wants Vagrant to re-run the Ansible playbook to check if any package and/or component can be updated or re-installed, it can be done with the command `vagrant provision`.
 
-Also, if the user has made any changes to the `custom` file to install a new component as it is stated in the [customization](#32-customization) section, the user can execute the `vagrant provision` command to make these changes effective.
+Also, if the user has made any changes to the `custom` file to install a new component as it is described in the [customization](#32-customization) section, the user can execute the `vagrant provision` command to make these changes effective.
 
-**Note:** Currently, the `Ansible` playbook lacks the commands to automatically uninstall any previously provisioned components that are no longer required.
+**Note:** Currently, the Ansible playbook lacks the commands to automatically uninstall any previously provisioned components that are no longer required. All uninstall processes should be done manually by the user for predictable results.
 
 **Note:** It is advised to close any SSH sessions that were opened before executing the `vagrant provision` command. Old SSH sessions may not have the newly set environment variables. For example, if a new GitHub access token is introduced via `vagrant provision`, it will not be available in any old session.
 
