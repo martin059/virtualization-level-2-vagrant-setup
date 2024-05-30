@@ -212,7 +212,6 @@ This section contains all currently known issues for the second and third levels
 Most of them have manual fixes and/or workarounds which are described in the [Fixes and Workarounds](#35-fixes-and-workarounds) section.
 
 - **Postman's GUI issue**: the postman app will not be capable of importing an internal collection due to a graphical bug were the file explorer windows appears bugged and cannot be interacted with. Related issue: https://github.com/martin059/virtualization-level-2-vagrant-setup/issues/37.
-- **Grafana might be unreachable after provisioning**: Sometimes when Ansible provisions the configuration for the Grafana container instance, the service is left in a bad state and keeps restarting over and over unless manually stopped. Related issue: https://github.com/martin059/virtualization-level-2-vagrant-setup/issues/54.
 
 ## 3.5. Fixes and Workarounds
 
@@ -222,12 +221,6 @@ This section contains the currently known manual fixes and/or workarounds for th
   1. In the import menu: instead of `File`, select the `Link` tab.
   2. Copy the URL to the **raw** file of the postman collection from [its repository](https://github.com/martin059/virtualization-level-1-prototype-app/blob/master/postman_testing_requests/testing-postman-collection.json).
   3. Click on `Continue`
-- **Manual fix for Grafana being unreachable**, starting from a newly established SSH session to the `vagrant` user, execute the following commands in order:
-  1. `cd grafana/`
-  2. `docker compose down -v`
-  3. `sudo rm -f initialConfig/grafana.db` (This is to prevent a prompt asking confirmation to  rewrite the file)
-  4. `docker compose up -d`
-  5. `sudo bash /home/vagrant/utils/grafanaUtils/restoreConfig.sh /home/vagrant/grafana/initialConfig/ <grafana_config_pwd>`
 
 # 4. Glossary
 
