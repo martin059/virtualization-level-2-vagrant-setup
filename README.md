@@ -228,7 +228,7 @@ This section contains the currently known manual fixes and/or workarounds for th
   3. `sudo rm -f initialConfig/grafana.db` (This is to prevent a prompt asking confirmation to  rewrite the file)
   4. `docker compose up -d`
   5. `sudo bash /home/vagrant/utils/grafanaUtils/restoreConfig.sh /home/vagrant/grafana/initialConfig/ <grafana_config_pwd>`
-- **Missing default pre-made grafana configuration**: The user will have to manually configure Grafana through its GUI.
+- **Missing default pre-made Grafana configuration**: The user will have to manually configure Grafana through its GUI.
 
 # 4. Glossary
 
