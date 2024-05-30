@@ -146,7 +146,7 @@ For the functionality related to the third level's role, the user can define the
 - `install_grafana`: To install `Grafana` and its pre-made configuration. It is set to `yes` by default.
 - `grafana_config_pwd`: Secret password that the will be used to decipher the encrypted zip file that contains the pre-made configuration for `Grafana` which contains a private Slack webhook in it. It is empty by default.
 
-**Note:** Currently, there is a known issue for the provisioning of the `Grafana` configuration. If the user wants to install it but does not provide the correct password in `grafana_config_pwd` the Ansible playbook will fail and leave the Grafana instance without configuration. For more details, read the [known issues](#34-known-issues) section.
+**Note:** Currently, there is a known issue for the provisioning of the `Grafana` configuration. If the user wants to install it but does not provide the correct password in `grafana_config_pwd` the Ansible playbook will fail and leave the Grafana instance with the default settings of a brand new instance. For more details, read the [known issues](#34-known-issues) section.
 
 If the customization needs to be modified after the initial provisioning process and/or some dependencies have had a newer version released, this can be done automatically. For more details read the [How to re-provision an existing VM](#331-how-to-re-provision-an-existing-vm) section.
 
