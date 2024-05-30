@@ -94,7 +94,7 @@ Optional roles are executed by enabling the specific roles through the [custom](
 
 Before starting the actual process of raising the VM through `Vagrant`, the host machine must have all necessary dependencies to run `Vagrant` itself, `VirtualBox` and the VM proper.
 
-**Note:** Although the standard Windows Command Prompt may be used, it is recommended to use either [Cygwin](https://cygwin.com) or [MSYS2](https://msys2.github.io) (Git Bash works as well) for proper terminal emulation through Mintty. `Vagrant` used to require a SSH binary installed on Windows, but version 2.0 onwards it is built-in.
+**Note:** Although the standard Windows Command Prompt may be used, it is recommended to use either [Cygwin](https://cygwin.com) or [MSYS2](https://msys2.github.io) (Git Bash works as well) for proper terminal emulation through Mintty. `Vagrant` used to require a SSH binary installed on Windows, but for version 2.0 onwards it is built-in.
 
 1. Download and install [Vagrant](https://www.vagrantup.com/downloads.html). Latest version should be fine, in case an unexpected trouble appears, try version 2.4.1 which at the time of this writing is the latest confirmed working.
 
