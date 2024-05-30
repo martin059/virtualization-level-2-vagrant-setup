@@ -218,7 +218,7 @@ Most of them have manual fixes and/or workarounds which are described in the [Fi
 
 This section contains the currently known manual fixes and/or workarounds for the [known issues](#34-known-issues).
 
-- **Workaround for Postman's GUI issue**, which prevents the importing an internal collection:
+- **Workaround for Postman's GUI issue**, which prevents importing an internal collection:
   1. In the import menu: instead of `File`, select the `Link` tab.
   2. Copy the URL to the **raw** file of the postman collection from [its repository](https://github.com/martin059/virtualization-level-1-prototype-app/blob/master/postman_testing_requests/testing-postman-collection.json).
   3. Click on `Continue`
