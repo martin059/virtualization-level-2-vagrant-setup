@@ -47,7 +47,7 @@ A VM can be raised with the following software components:
 
 **Note:** There are more roles but those will be mentioned in the [Third level](#21-ansible-playbook-for-third-level).
 
-Unless explicitly mentioned in the component's `Ansible` playbook, the latest stable version of each software component will be pulled from their respective repositories. Otherwise, a specific version will be pulled (for example, the latest stable `Postman` v9.x is used instead of the current default v10.x). For more details, see the [Ansible playbook](#11-ansible-playbook-for-second-level) section.
+Unless explicitly mentioned in the component's Ansible playbook, the latest stable version of each software component will be pulled from their respective repositories. Otherwise, a specific version will be pulled (for example, the latest stable Postman v9.x is used instead of the current default v10.x). For more details, see the [Ansible playbook](#11-ansible-playbook-for-second-level) section.
 
 Some of the aforementioned components are optional and can be skipped if the user wants to make their VM as light as possible, including only the minimum required components. For more details on customization, see the [Customization for the second level](#321-customization-for-the-second-level) section.
 
