@@ -212,7 +212,7 @@ Most of them have manual fixes and/or workarounds which are described in the [Fi
 
 - **Postman's GUI issue**: the postman app will not be capable of importing an internal collection due to a graphical bug were the file explorer windows appears bugged and cannot be interacted with. Related issue: https://github.com/martin059/virtualization-level-2-vagrant-setup/issues/37.
 - **Grafana might be unreachable after provisioning**: Sometimes when Ansible provisions the configuration for the Grafana container instance, the service is left in a bad state and keeps restarting over and over unless manually stopped. Related issue: https://github.com/martin059/virtualization-level-2-vagrant-setup/issues/54.
-- **Missing default pre-made grafana configuration**: The Ansible playbook's task that provisions the Grafana configuration will fail if a correct password is not given to decrypt the pre-made configuration. Related issue: https://github.com/martin059/virtualization-level-2-vagrant-setup/issues/55.
+- **Missing default pre-made Grafana configuration**: The Ansible playbook's task that provisions the Grafana configuration will fail if a correct password is not given to decrypt the pre-made configuration. Related issue: https://github.com/martin059/virtualization-level-2-vagrant-setup/issues/55.
 
 ## 3.5. Fixes and Workarounds
 
