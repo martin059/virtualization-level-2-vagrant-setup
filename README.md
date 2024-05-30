@@ -45,7 +45,7 @@ A VM can be raised with the following software components:
  - [Postman](https://www.postman.com/)
  - [Z Shell](https://www.zsh.org/) (including [Oh My Zsh](https://ohmyz.sh/))
 
-**Note:** There are more roles but those will be mentioned in the [Third level](#21-ansible-playbook-for-third-level).
+**Note**: There are more roles but those will be mentioned in the [Third level](#21-ansible-playbook-for-third-level).
 
 Unless explicitly mentioned in the component's Ansible playbook, the latest stable version of each software component will be pulled from their respective repositories. Otherwise, a specific version will be pulled (for example, the latest stable Postman v9.x is used instead of the current default v10.x). For more details, see the [Ansible playbook](#11-ansible-playbook-for-second-level) section.
 
@@ -94,7 +94,7 @@ Optional roles are executed by enabling the specific roles through the [custom](
 
 Before starting the actual process of raising the VM through `Vagrant`, the host machine must have all necessary dependencies to run `Vagrant` itself, `VirtualBox` and the VM proper.
 
-**Note:** Although the standard Windows Command Prompt may be used, it is recommended to use either [Cygwin](https://cygwin.com) or [MSYS2](https://msys2.github.io) (Git Bash works as well) for proper terminal emulation through Mintty. `Vagrant` used to require a SSH binary installed on Windows, but for version 2.0 onwards it is built-in.
+**Note**: Although the standard Windows Command Prompt may be used, it is recommended to use either [Cygwin](https://cygwin.com) or [MSYS2](https://msys2.github.io) (Git Bash works as well) for proper terminal emulation through Mintty. `Vagrant` used to require a SSH binary installed on Windows, but for version 2.0 onwards it is built-in.
 
 1. Download and install [Vagrant](https://www.vagrantup.com/downloads.html). Latest version should be fine, in case an unexpected trouble appears, try version 2.4.1 which at the time of this writing is the latest confirmed working.
 
@@ -110,13 +110,13 @@ Before starting the actual process of raising the VM through `Vagrant`, the host
 
 Once these steps are done, skip to the [Working with Vagrant](#33-working-with-vagrant) section.
 
-**Note:** During `vagrant up`, a port collision error will occur if the ports defined in the `Vagrantfile` conflict with a service already running on the host machine. To resolve this, change the port mappings in the `Vagrantfile`.
+**Note**: During `vagrant up`, a port collision error will occur if the ports defined in the `Vagrantfile` conflict with a service already running on the host machine. To resolve this, change the port mappings in the `Vagrantfile`.
 
 ## 3.2. Customization
 
 The provisioning process may be customized to determine whether some components are installed or not, and also to make some environment customizations for the user such as the Git username/email configuration or whether to install certain components or tools.
 
-**Note:** By default, the `Vagrantfile` and the `Ansible` playbook are configured to set up the "Minimum Viable Product (MVP) Vagrant". For more details read the [What is the MVP Vagrant?](#332-what-is-the-mvp-vagrant) section.
+**Note**: By default, the `Vagrantfile` and the `Ansible` playbook are configured to set up the "Minimum Viable Product (MVP) Vagrant". For more details read the [What is the MVP Vagrant?](#332-what-is-the-mvp-vagrant) section.
 
 To customize the provisioning process, it is needed to create a `provision/ansible/group_vars/all/custom` file (an example can be found in [`custom_example`](EXAMPLE_custom) at the root of the repository).
 
@@ -143,10 +143,11 @@ If the customization needs to be modified after the initial provisioning process
 For the functionality related to the third level's role, the user can define the following variables:
 
 - `install_prometheus`: To install `Prometheus` and `Node Exporter`. It is set to `yes` by default.
-- `install_grafana`: To install `Grafana` and its pre-made configuration. It is set to `yes` by default.
+- `install_grafana`: To install `Grafana` with the default configuration. It is set to `yes` by default.
+- `preconfigure_grafana`: To automatically Grafana with a pre-made configuration. It is set to `yes` by default
 - `grafana_config_pwd`: Secret password that the will be used to decipher the encrypted zip file that contains the pre-made configuration for `Grafana` which contains a private Slack webhook in it. It is empty by default.
 
-**Note:** Currently, there is a known issue for the provisioning of the `Grafana` configuration. If the user wants to install it but does not provide the correct password in `grafana_config_pwd` the Ansible playbook will fail and leave the Grafana instance with the default settings of a brand new instance. For more details, read the [known issues](#34-known-issues) section.
+**Note**: By default, Grafana is set to be installed with a pre-made configuration, this pre-made configuration will not contain the Slack webhook since it will use an unencrypted file instead. The user must provide the correct `grafana_config_pwd` to enable the deployment of the other pre-made configuration which includes the Slack webhook.
 
 If the customization needs to be modified after the initial provisioning process and/or some dependencies have had a newer version released, this can be done automatically. For more details read the [How to re-provision an existing VM](#331-how-to-re-provision-an-existing-vm) section.
 
@@ -154,11 +155,11 @@ If the customization needs to be modified after the initial provisioning process
 
 Once the VM is up and running, one can run `vagrant ssh` to log into it, or it can also be done manually with `ssh -p <port-number> vagrant@127.0.0.1` (the port number is usually _2222_, but it might change if multiple VMs are running at the same time). The appropriate SSH client configuration can be seen by running `vagrant ssh-config`. The default passwords for `root` and `vagrant` users is `vagrant` (as usual for Vagrant boxes).
 
-**Note:** If the `vagrant ssh` command is being executed in Mintty (Cygwin/MSYS2/Git Bash terminal emulator) instead of the standard Windows console host, it is also needed to define the `VAGRANT_PREFER_SYSTEM_BIN` environment variable and set it to `1`, e.g. by adding `export VAGRANT_PREFER_SYSTEM_BIN=1` to the `~/.bashrc` file (`~/.zshrc` if using ZSH). Otherwise Vagrant will use its built-in SSH client which is meant for the Windows console and can cause trouble with other terminal implementations.
+**Note**: If the `vagrant ssh` command is being executed in Mintty (Cygwin/MSYS2/Git Bash terminal emulator) instead of the standard Windows console host, it is also needed to define the `VAGRANT_PREFER_SYSTEM_BIN` environment variable and set it to `1`, e.g. by adding `export VAGRANT_PREFER_SYSTEM_BIN=1` to the `~/.bashrc` file (`~/.zshrc` if using ZSH). Otherwise Vagrant will use its built-in SSH client which is meant for the Windows console and can cause trouble with other terminal implementations.
 
 Afterwards, the VM is ready to be used as normal Linux machine that can be accessed through Secure Shell (SSH) protocol.
 
-**Note:** In its current state, the Ansible playbook doesn't have the necessary commands to automatically provision a Desktop Environment (DE). Any applications that have their own Graphical User Interface (GUI), such as _Visual Studio Code_ for example, can be accessed thanks to the `X11 Forwarding` functionality that is provisioned automatically the first time the VM is launched. For more details, read the [Ansible playbook](#11-ansible-playbook-for-second-level) section.
+**Note**: In its current state, the Ansible playbook doesn't have the necessary commands to automatically provision a Desktop Environment (DE). Any applications that have their own Graphical User Interface (GUI), such as _Visual Studio Code_ for example, can be accessed thanks to the `X11 Forwarding` functionality that is provisioned automatically the first time the VM is launched. For more details, read the [Ansible playbook](#11-ansible-playbook-for-second-level) section.
 
 Finally, once the VM is no longer needed, or the user wants to "shut it down", they can do the following:
 
@@ -166,7 +167,7 @@ Finally, once the VM is no longer needed, or the user wants to "shut it down", t
 - Use the command `vagrant halt` to shut it down (use `vagrant halt -f` to force it).
 - Use the command `vagrant destroy` to undefine the VM entirely, also deleting any associated virtual drives it might have (use `vagrant destroy -f` to force it). This is **irreversible** and all information on the VM's drive will be lost.
 
-**Note:** The command `vagrant up` can also be used to re-start a previously shutdown vagrant VM.
+**Note**: The command `vagrant up` can also be used to re-start a previously shutdown vagrant VM.
 
 ### 3.3.1. How to re-provision an existing VM
 
@@ -174,16 +175,16 @@ If the user wants Vagrant to re-run the Ansible playbook to check if any package
 
 Also, if the user has made any changes to the `custom` file to install a new component as it is described in the [customization](#32-customization) section, the user can execute the `vagrant provision` command to make these changes effective.
 
-**Note:** Currently, the Ansible playbook lacks the commands to automatically uninstall any previously provisioned components that are no longer required. All uninstall processes should be done manually by the user for predictable results.
+**Note**: Currently, the Ansible playbook lacks the commands to automatically uninstall any previously provisioned components that are no longer required. All uninstall processes should be done manually by the user for predictable results.
 
-**Note:** It is advised to close any SSH sessions that were opened before executing the `vagrant provision` command. Old SSH sessions may not have the newly set environment variables. For example, if a new GitHub access token is introduced via `vagrant provision`, it will not be available in any old session.
+**Note**: It is recommended to close any SSH sessions that were opened before executing the `vagrant provision` command. Old SSH sessions may not have the newly set environment variables. For example, if a new GitHub access token is introduced via `vagrant provision`, it will not be available in any old session.
 
 ### 3.3.2. What is the MVP Vagrant?
 
 The Minimum Viable Product Vagrant, or MVP Vagrant, refers to the vagrant with the minimum required software to run:
 
 - The Sample App made for the [first virtualization level](https://github.com/martin059/vitualization-level-1-prototype-app) 
-- A Grafana instance coupled with Prometheus to monitor the Vagrant VM's CPU usage.
+- A Grafana instance pre-configured with a Prometheus source and a dashboard to monitor the CPU usage of the Vagrant VM.
 - A Few dependencies to improve the user-experience.
 
 It includes:
@@ -192,7 +193,7 @@ It includes:
 - `ZSH` and `OMZ`: Both are lightweight additional components that add color to the terminal.
 - `x11 Forwarding`: Lightweight components that can be very useful in the lack of a DE.
 - `git`: Git is also installed but only with the `git_recommended_config` settings. The provision will lack the necessary elements to interact with any private GitHub repository unless the user goes through a login process and/or configures the Git authentication manually.
-- `Prometheus`, `Node Exporter` and `Grafana`: they are required for monitoring the VM resource consumption.
+- `Prometheus`, `Node Exporter` and `Grafana` pre-configured: they are required for monitoring the VM resource consumption.
 
 Also, the following ports are exposed by default:
 - `80`: It is reserved for the optional PgAdmin app.
@@ -212,7 +213,6 @@ Most of them have manual fixes and/or workarounds which are described in the [Fi
 
 - **Postman's GUI issue**: the postman app will not be capable of importing an internal collection due to a graphical bug were the file explorer windows appears bugged and cannot be interacted with. Related issue: https://github.com/martin059/virtualization-level-2-vagrant-setup/issues/37.
 - **Grafana might be unreachable after provisioning**: Sometimes when Ansible provisions the configuration for the Grafana container instance, the service is left in a bad state and keeps restarting over and over unless manually stopped. Related issue: https://github.com/martin059/virtualization-level-2-vagrant-setup/issues/54.
-- **Missing default pre-made Grafana configuration**: The Ansible playbook's task that provisions the Grafana configuration will fail if a correct password is not given to decrypt the pre-made configuration. Related issue: https://github.com/martin059/virtualization-level-2-vagrant-setup/issues/55.
 
 ## 3.5. Fixes and Workarounds
 
@@ -228,7 +228,6 @@ This section contains the currently known manual fixes and/or workarounds for th
   3. `sudo rm -f initialConfig/grafana.db` (This is to prevent a prompt asking confirmation to  rewrite the file)
   4. `docker compose up -d`
   5. `sudo bash /home/vagrant/utils/grafanaUtils/restoreConfig.sh /home/vagrant/grafana/initialConfig/ <grafana_config_pwd>`
-- **Missing default pre-made Grafana configuration**: The user will have to manually configure Grafana through its GUI.
 
 # 4. Glossary
 
