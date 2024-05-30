@@ -21,6 +21,7 @@ This section of the project is based on a [Vagrant](https://www.vagrantup.com/) 
     - [3.3.1. How to re-provision an existing VM](#331-how-to-re-provision-an-existing-vm)
     - [3.3.2. What is the MVP Vagrant?](#332-what-is-the-mvp-vagrant)
   - [3.4. Known issues](#34-known-issues)
+  - [3.5. Fixes and Workarounds](#35-fixes-and-workarounds)
 - [4. Glossary](#4-glossary)
 
 
@@ -28,7 +29,7 @@ This section of the project is based on a [Vagrant](https://www.vagrantup.com/) 
 
 This section of the project contains the necessary scripts for automatically deploying and provisioning a virtual machine (VM) capable of developing and running the Sample App for the [first virtualization level](https://github.com/martin059/vitualization-level-1-prototype-app).
 
-The aim of this level is to provide a way to quickly create and configure lightweight, reproducible, and portable development and demo environments using [Ansible](https://www.ansible.com/) playbooks and roles. The environment can be brought up and managed using [Vagrant](https://www.vagrantup.com/).
+The second level's role is to provide a way to quickly create and configure lightweight, reproducible, and portable development and demo environments using [Ansible](https://www.ansible.com/) playbooks and roles. The environment can be brought up and managed using [Vagrant](https://www.vagrantup.com/).
 
 The VM is built on top of the [AlmaLinux](https://almalinux.org/) 9's [official vagrant box](https://app.vagrantup.com/almalinux/boxes/9), using the _currently released version_.
 
@@ -44,7 +45,7 @@ A VM can be raised with the following software components:
  - [Postman](https://www.postman.com/)
  - [Z Shell](https://www.zsh.org/) (including [Oh My Zsh](https://ohmyz.sh/))
 
-**Note:** There are more roles but those will be mentioned in the [Third level](#2-third-virtualization-level-resource-monitoring).
+**Note:** There are more roles but those will be mentioned in the [Third level](#21-ansible-playbook-for-third-level).
 
 Unless explicitly mentioned in the component's `Ansible` playbook, the latest stable version of each software component will be pulled from their respective repositories. Otherwise, a specific version will be pulled (for example, the latest stable `Postman` v9.x is used instead of the current default v10.x). For more details, see the [Ansible playbook](#11-ansible-playbook-for-second-level) section.
 
@@ -74,7 +75,7 @@ Optional roles are executed by enabling the specific roles through the [custom](
 
 This section of the project contains the necessary Ansible playbooks for automatically provisioning a [Prometheus](https://prometheus.io/) (with [Node Exporter](https://github.com/prometheus/node_exporter)) service on a VM. Prometheus is used to monitor the VM's resource utilization, such as CPU load. The project also includes a [Grafana](https://grafana.com/) instance. The Grafana instance uses the data provided by the Prometheus service to populate a dashboard. This dashboard can display resource utilization data and Grafana can send customizable alerts.
 
-The aim of this third level is to provide a way to register, monitor, and control a machine's resource utilization. This can be useful in cases where the consumption of these resources incurs a cost, such as a VM running in a cloud service or a continuous deployment node that should not remain blocked for an extended period of time.
+The third level's role is to provide a way to register, monitor, and control a machine's resource utilization. This can be useful in cases where the consumption of these resources incurs a cost, such as a VM running in a cloud service or a continuous deployment node that should not remain blocked for an extended period of time.
 
 In the default use case of this project, Grafana monitors the Vagrant VM's CPU load and alerts an external service like [Slack](https://slack.com/intl/en-gb/) if the load exceeds 20% for at least 20 seconds.
 
@@ -88,8 +89,6 @@ This level includes the following Ansible roles, which build upon those describe
 Optional roles are executed by enabling the specific roles through the [custom](#32-customization) file if they are not [enabled by default](#332-what-is-the-mvp-vagrant).
 
 # 3. Working with the project
-
-TODO
 
 ## 3.1. Getting Started
 
@@ -115,17 +114,15 @@ Once these steps are done, skip to the [Working with Vagrant](#33-working-with-v
 
 ## 3.2. Customization
 
-TODO 
-
-### 3.2.1. Customization for the second level
-
 The provisioning process may be customized to determine whether some components are installed or not, and also to make some environment customizations for the user such as the Git username/email configuration or whether to install certain components or tools.
 
 **Note:** By default, the `Vagrantfile` and the `Ansible` playbook are configured to set up the "Minimum Viable Product (MVP) Vagrant". For more details read the [What is the MVP Vagrant?](#332-what-is-the-mvp-vagrant) section.
 
 To customize the provisioning process, it is needed to create a `provision/ansible/group_vars/all/custom` file (an example can be found in [`custom_example`](EXAMPLE_custom) at the root of the repository).
 
-In there the user can define some variables such as:
+### 3.2.1. Customization for the second level
+
+For the functionality related to the second level's role, the user can define the following variables:
 
 - `git_user_name` and `git_user_email`: To set the user's Git name and email automatically during VM's provisioning. Both parameters are empty by default.
 - `git_user_signingkey_name`: Name of the user's private key that must be provided in the repository's `ssh` folder, this will automatically link the key to the user in Git's configuration. It is empty by default.
@@ -143,7 +140,15 @@ If the customization needs to be modified after the initial provisioning process
 
 ### 3.2.2. Customization for the third level
 
-TODO
+For the functionality related to the third level's role, the user can define the following variables:
+
+- `install_prometheus`: To install `Prometheus` and `Node Exporter`. It is set to `yes` by default.
+- `install_grafana`: To install `Grafana` and its pre-made configuration. It is set to `yes` by default.
+- `grafana_config_pwd`: Secret password that the will be used to decipher the encrypted zip file that contains the pre-made configuration for `Grafana` which contains a private Slack webhook in it. 
+
+**Note:** Currently, there is a known issue for the provisioning of the `Grafana` configuration. If the user wants to install it but does not provide the correct password in `grafana_config_pwd`. For more details, read the [known issues](#34-known-issues) section.
+
+If the customization needs to be modified after the initial provisioning process and/or some dependencies have had a newer version released, this can be done automatically. For more details read the [How to re-provision an existing VM](#331-how-to-re-provision-an-existing-vm) section.
 
 ## 3.3. Working with Vagrant
 
@@ -170,29 +175,40 @@ If the user wants `Vagrant` to re-run the `Ansible` playbook to check if any pac
 Also, if the user has made any changes to the `custom` file to install a new component as it is stated in the [customization](#32-customization) section, the user can execute the `vagrant provision` command to make these changes effective.
 
 **Note:** Currently, the `Ansible` playbook lacks the commands to automatically uninstall any previously provisioned components that are no longer required.
+
 **Note:** It is advised to close any SSH sessions that were opened before executing the `vagrant provision` command. Old SSH sessions may not have the newly set environment variables. For example, if a new GitHub access token is introduced via `vagrant provision`, it will not be available in any old session.
 
 ### 3.3.2. What is the MVP Vagrant?
 
-The Minimum Viable Product Vagrant, or MVP Vagrant, refers to the vagrant with the minimum required software to run the Sample App made for the [1st virtualization level](https://github.com/martin059/vitualization-level-1-prototype-app) plus a few light dependencies to improve the user-experience.
+The Minimum Viable Product Vagrant, or MVP Vagrant, refers to the vagrant with the minimum required software to run:
+
+- The Sample App made for the [first virtualization level](https://github.com/martin059/vitualization-level-1-prototype-app) 
+- A instance coupled with Prometheus to monitor the Vagrant VM's CPU usage.
+- A Few dependencies to improve the user-experience.
 
 It includes:
 - `Ansible`: as it is required to provision the VM itself.
 - `Docker`, `Docker-Compose`, `NodeJs` and `npm`: as they are required for compiling and running the Sample App itself.
 - `ZSH` and `OMZ`: Both are lightweight additional components that add color to the terminal.
-- `x11 forwarding`: Lightweight components that can be very useful in the lack of a DE.
+- `x11 Forwarding`: Lightweight components that can be very useful in the lack of a DE.
 - `git`: Git is also installed but only with the `git_recommended_config` settings. The provision will lack the necessary elements to interact with any private GitHub repository unless the user goes through a login process and/or configures the Git authentication manually.
+- `Prometheus`, `Node Exporter` and `Grafana`: they are required for monitoring the VM resource consumption.
 
 Also, the following ports are exposed by default:
-- `80`: It is reserved for the optional `PgAdmin` app.
-- `5001`: It is reserved for the Sample App's `Python API`.
-- `5002`: It is reserved for the Sample App's `Svelte App`.
+- `80`: It is reserved for the optional PgAdmin app.
+- `5001`: It is reserved for the Sample App's Python API.
+- `5002`: It is reserved for the Sample App's Svelte App.
+- `3334`: It is reserved for the Grafana's instance.
+- `9091`: It is reserved for the Prometheus GUI.
+- `9191`: It is reserved for the Node Exporter GUI.
 
 Those ports can be modified in the `Vagrantfile` as it is explained in the [Getting Started](#31-getting-started) section in the _Optional steps_ subsection.
 
-TODO expand with lvl 3
-
 ## 3.4. Known issues
+
+TODO
+
+## 3.5. Fixes and Workarounds
 
 TODO
 
