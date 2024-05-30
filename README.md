@@ -224,10 +224,11 @@ This section contains the currently known manual fixes and/or workarounds for th
 
 # 4. Glossary
 
-- VM: Virtual Machine
-- MVP: Minimum Viable Product
+- CLI: command-line interface
 - DE: Desktop Environment
-- GUI: Graphical User Interface
 - GH: GitHub CLI
-- ZSH: Z Shell
+- GUI: Graphical User Interface
+- MVP: Minimum Viable Product
 - OMZ: Oh My Zsh
+- VM: Virtual Machine
+- ZSH: Z Shell
