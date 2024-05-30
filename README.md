@@ -158,7 +158,7 @@ Once the VM is up and running, one can run `vagrant ssh` to log into it, or it c
 
 Afterwards, the VM is ready to be used as normal Linux machine that can be accessed through Secure Shell (SSH) protocol.
 
-**Note:** In its current state, the `Ansible` playbook doesn't have the necessary commands to automatically provision a Desktop Environment(DE). Any applications that have their own Graphical User Interface (GUI), such as `Visual Studio Code` for example, can be accessed thanks to the `X11 Forwarding` functionality that is provisioned automatically the first time the VM is launched. For more details, read the [Ansible playbook](#11-ansible-playbook-for-second-level) section.
+**Note:** In its current state, the Ansible playbook doesn't have the necessary commands to automatically provision a Desktop Environment (DE). Any applications that have their own Graphical User Interface (GUI), such as _Visual Studio Code_ for example, can be accessed thanks to the `X11 Forwarding` functionality that is provisioned automatically the first time the VM is launched. For more details, read the [Ansible playbook](#11-ansible-playbook-for-second-level) section.
 
 Finally, once the VM is no longer needed, or the user wants to "shut it down", they can do the following:
 
